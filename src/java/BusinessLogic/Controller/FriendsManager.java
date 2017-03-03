@@ -11,4 +11,15 @@ package BusinessLogic.Controller;
  */
 public class FriendsManager {
     
+    public FriendsManager(){
+    
+    }
+    
+    public java.util.ArrayList<DataAccess.Entity.Usuario> getFriendsFrom(Integer usrId){
+        return null;
+    }
+    
+    public java.util.ArrayList<DataAccess.Entity.Usuario> getFriendsFrom(String mail){
+        return null;
+    }
 }
