@@ -11,6 +11,7 @@ import DataAccess.Entity.Autenticacion;
 import DataAccess.Entity.Usuario;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -18,49 +19,50 @@ import java.util.List;
  */
 public class UserManager {
 
-    
-    
-    public List<Usuario> usuarios(){
+    public List<Usuario> usuarios() {
         UserDAO usuarioDAO = new UserDAO();
         return usuarioDAO.findAll();
     }
-    
-    public boolean login(String mail, String pass){
+
+    public boolean login(String mail, String pass) {
         AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
-        Autenticacion autenticacionG = autenticacionDAO.searchByUsrData(mail,pass);
+        Autenticacion autenticacionG = autenticacionDAO.searchByUsrData(mail, pass);
         return (autenticacionG != null);
     }
-            
+
     public String createUser(String nombreUsuario,
             String apellidoUsuario, String aliasUsuario, String sexoUsuario,
             String telefonoUsuario, boolean activo, Date fechaNacimientoUsuario,
             String pass, String correo) {
-        
-        
-        Usuario usuario = 
-                new Usuario(null, nombreUsuario, apellidoUsuario,
-                aliasUsuario, sexoUsuario, telefonoUsuario, activo, new Date(),
-                fechaNacimientoUsuario);
-        
-        //usuario.setAutenticacion(autenticacion);
 
-        UserDAO usuarioDAO = new UserDAO();
-        Usuario usuarioG = usuarioDAO.persist(usuario);
-        
-        Autenticacion autenticacion =
-                new Autenticacion(usuarioG.getIdUsuario(), correo ,pass);
-        
-        AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
-        Autenticacion autenticacionG = autenticacionDAO.persist(autenticacion);
-        
-        if (usuarioG != null && autenticacionG != null) {
-            return "El usuario ha sido creado, su usuario es " + autenticacionG.getCorreo()+ ".";
-        } else {
-            if(usuarioG == null){
-                return "El usuario no pudo ser creado.";
-            }else{
-                return "La autenticación no pudo ser creada.";
-            }                            
+        Usuario usuario
+                = new Usuario(null, nombreUsuario, apellidoUsuario,
+                        aliasUsuario, sexoUsuario, telefonoUsuario, activo, new Date(),
+                        fechaNacimientoUsuario);
+
+        //usuario.setAutenticacion(autenticacion);
+        try {
+            UserDAO usuarioDAO = new UserDAO();
+            Usuario usuarioG = usuarioDAO.persist(usuario);
+
+            Autenticacion autenticacion
+                    = new Autenticacion(usuarioG.getIdUsuario(), correo, pass);
+
+            AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
+            Autenticacion autenticacionG = autenticacionDAO.persist(autenticacion);
+
+            if (usuarioG != null && autenticacionG != null) {
+                return "El usuario ha sido creado, su usuario es " + autenticacionG.getCorreo() + ".";
+            } else {
+                if (usuarioG == null) {
+                    return "El usuario no pudo ser creado.";
+                } else {
+                    return "La autenticación no pudo ser creada.";
+                }
+            }
+        }catch (IllegalStateException pe){
+            return "El correo ya existe";
         }
+
     }
 }
