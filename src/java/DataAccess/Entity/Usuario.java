@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,6 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByFechaRegistroUsuario", query = "SELECT u FROM Usuario u WHERE u.fechaRegistroUsuario = :fechaRegistroUsuario")
     , @NamedQuery(name = "Usuario.findByFechaNacimientoUsuario", query = "SELECT u FROM Usuario u WHERE u.fechaNacimientoUsuario = :fechaNacimientoUsuario")})
 public class Usuario implements Serializable {
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Autenticacion autenticacion;
 
     @JoinTable(name = "USUARIO_INTERES", joinColumns = {
         @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")}, inverseJoinColumns = {
@@ -222,6 +227,14 @@ public class Usuario implements Serializable {
 
     public void setInteresCollection(Collection<Interes> interesCollection) {
         this.interesCollection = interesCollection;
+    }
+
+    public Autenticacion getAutenticacion() {
+        return autenticacion;
+    }
+
+    public void setAutenticacion(Autenticacion autenticacion) {
+        this.autenticacion = autenticacion;
     }
     
 }

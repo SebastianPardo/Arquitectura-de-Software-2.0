@@ -5,21 +5,26 @@
  */
 package BusinessLogic.Controller;
 
+import DataAccess.Entity.Usuario;
+import java.util.ArrayList;
+
 /**
  *
  * @author arqsoft2017i
  */
 public class FriendsManager {
     
+    
+    private ArrayList<Usuario> amigos;
     public FriendsManager(){
     
     }
     
-    public java.util.ArrayList<DataAccess.Entity.Usuario> getFriendsFrom(Integer usrId){
+    public ArrayList<Usuario> getFriendsFrom(Integer usrId){
         return null;
     }
     
-    public java.util.ArrayList<DataAccess.Entity.Usuario> getFriendsFrom(String mail){
+    public ArrayList<Usuario> getFriendsFrom(String mail){
         return null;
     }
 }

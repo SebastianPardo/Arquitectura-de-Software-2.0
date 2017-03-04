@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 /**
@@ -22,7 +23,7 @@ public class AuthenticationDAO {
     
     }
     
-    public Autenticacion persist(Autenticacion anAuth){
+    public Autenticacion persist(Autenticacion anAuth) throws IllegalStateException{
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();
         et.begin();
@@ -73,7 +74,7 @@ public class AuthenticationDAO {
     public Autenticacion searchByUsrData(String mail, String pass) {
         EntityManager em = EFactory.createEntityManager();
         Autenticacion autenticacion = null;
-        Query q = em.createNamedQuery("Autenticacion.aut");
+        Query q = em.createNamedQuery("Autenticacion.Aut");
         q.setParameter("correo", mail);
         q.setParameter("pass", pass);
         try {
