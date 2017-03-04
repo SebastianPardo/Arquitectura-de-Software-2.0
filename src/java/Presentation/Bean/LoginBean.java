@@ -47,11 +47,6 @@ public class LoginBean {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    public String login(){
-        if(((new UserManager()).login(correo, pass))!=UserManager.noUsrId)
-            return "usuarios";
-        else
     /*
      * En este método sólo verificamos si el usuario se conectó d eforma exitosa.
      * El atributo usrId está en -1 sólo si no se han conectado.
@@ -60,12 +55,12 @@ public class LoginBean {
         return (usrId > UserManager.noUsrId);
     }
     
-    public void login(){
+    public String login(){
         Integer someId = AppController.create().login(correo, pass);        
         if(someId > UserManager.noUsrId){                        
             usrId = someId;
             loadUserData();
-            message = "Loggeado";
+            return "usuarios";
         }else{
             usrId = UserManager.noUsrId;
             message = "Datos erroneos";
