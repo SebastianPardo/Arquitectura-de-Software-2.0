@@ -8,7 +8,8 @@ package Presentation.Bean;
 import BusinessLogic.Controller.AppController;
 import BusinessLogic.Controller.UserManager;
 import BusinessLogic.Controller.UserView;
-import javax.faces.bean.*;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
