@@ -19,15 +19,24 @@ import javax.persistence.PersistenceException;
  */
 public class UserManager {
 
+    public UserManager() {
+
+    }
+
     public List<Usuario> usuarios() {
         UserDAO usuarioDAO = new UserDAO();
         return usuarioDAO.findAll();
     }
 
-    public boolean login(String mail, String pass) {
+    public Integer login(String mail, String pass) {
+        Integer usrId = noUsrId;
         AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
         Autenticacion autenticacionG = autenticacionDAO.searchByUsrData(mail, pass);
-        return (autenticacionG != null);
+        
+        if (autenticacionG != null)
+            usrId = autenticacionG.getIdUsuario();
+        
+        return usrId;
     }
 
     public String createUser(String nombreUsuario,
@@ -60,9 +69,27 @@ public class UserManager {
                     return "La autenticación no pudo ser creada.";
                 }
             }
-        }catch (IllegalStateException pe){
+        } catch (IllegalStateException pe) {
             return "El correo ya existe";
         }
 
     }
+
+    public UserView loadUser(Integer usrId) {
+        UserView value = new UserView();
+
+        UserDAO usrDAO = new UserDAO();
+        Usuario usr = usrDAO.searchById(usrId);
+
+        if (usr != null) {
+            value.setUsrId(usr.getIdUsuario());
+            value.setUsrAlias(usr.getAliasUsuario());
+            value.setUsrName(usr.getNombreUsuario());
+            value.setUsrLastName(usr.getApellidoUsuario());
+        }
+
+        return value;
+    }
+
+    public static Integer noUsrId = -1;
 }

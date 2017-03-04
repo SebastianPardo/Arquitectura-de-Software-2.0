@@ -5,17 +5,16 @@
  */
 package Presentation.Bean;
 
-import BusinessLogic.Controller.Encryp;
 import BusinessLogic.Controller.UserManager;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author arqsoft2017i
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class LoginBean {
 
     private String pass;
@@ -47,12 +46,11 @@ public class LoginBean {
     }
     
     public String login(){
-          
-        if(!(new UserManager()).login(correo, pass)){
-            message = "Datos erroneos";
-            return null;
-        }else
+        if(((new UserManager()).login(correo, pass))!=UserManager.noUsrId)
             return "usuarios";
+        else
+            message = "Datos erroneos";
+        return null;
     }
 
     
