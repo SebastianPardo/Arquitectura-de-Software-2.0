@@ -15,5 +15,5 @@ public class DataBaseController {
         
     }
     
-    public static final String DB_NAME = "AppPerfilesDB";
+    public static final String DB_NAME = "AppPerfilesPU";
 }

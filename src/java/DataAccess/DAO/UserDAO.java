@@ -6,6 +6,7 @@
 package DataAccess.DAO;
 
 import DataAccess.Entity.*;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -88,7 +89,7 @@ public class UserDAO {
         return value;
     }
     
-    public java.util.List<Usuario> findAll(){
+    public List<Usuario> findAll(){
         EntityManager em = EFactory.createEntityManager();
         java.util.List<Usuario> usuarios = null;
         Query q = em.createNamedQuery("Usuario.findAll");

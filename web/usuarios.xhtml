@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Lista usuarios</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+        <h:form> 
+            <p:dataScroller value="#{userBean.usuarios}" var="usuario" chunkSize="10">
+                <f:facet name="header">
+                    Se muestran todos los usuarios
+                </f:facet>
+
+                <h:panelGrid columns="2" style="width:100%" columnClasses="detail">
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Alias:" />
+                            <h:outputText value="#{usuario.aliasUsuario}" style="font-weight: bold"/>
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{usuario.nombreUsuario}" style="font-weight: bold"/>
+
+                            <h:outputText value="Apellido:" />
+                            <h:outputText value="#{usuario.apellidoUsuario}" style="font-weight: bold"/>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                    <h:commandButton action="#{userBean.addAmigo(usuario.idUsuario)}" value="Agregar"/>
+                </h:panelGrid>
+            </p:dataScroller>
+        </h:form>
+    </body>
+</html>
