@@ -19,22 +19,23 @@ import javax.persistence.PersistenceException;
  */
 public class UserManager {
 
-    public UserManager() {
-
+    public UserManager(){
+    
     }
-
-    public List<Usuario> usuarios() {
+    
+    public List<Usuario> usuarios(){
         UserDAO usuarioDAO = new UserDAO();
         return usuarioDAO.findAll();
     }
-
-    public Integer login(String mail, String pass) {
+    
+    public Integer login(String mail, String pass){
         Integer usrId = noUsrId;
         AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
-        Autenticacion autenticacionG = autenticacionDAO.searchByUsrData(mail, pass);
+        Autenticacion autenticacionG = autenticacionDAO.searchByUsrData(mail,pass);
         
-        if (autenticacionG != null)
-            usrId = autenticacionG.getIdUsuario();
+        if(autenticacionG != null){
+            usrId = autenticacionG.getIdUsuario();        
+        }
         
         return usrId;
     }
@@ -74,22 +75,22 @@ public class UserManager {
         }
 
     }
-
-    public UserView loadUser(Integer usrId) {
+    
+    public UserView loadUser(Integer usrId){
         UserView value = new UserView();
-
+        
         UserDAO usrDAO = new UserDAO();
         Usuario usr = usrDAO.searchById(usrId);
-
-        if (usr != null) {
-            value.setUsrId(usr.getIdUsuario());
+        
+        if(usr != null){        
+            value.setUsrId(usr.getIdUsuario());            
             value.setUsrAlias(usr.getAliasUsuario());
             value.setUsrName(usr.getNombreUsuario());
             value.setUsrLastName(usr.getApellidoUsuario());
         }
-
+        
         return value;
     }
-
+    
     public static Integer noUsrId = -1;
 }
