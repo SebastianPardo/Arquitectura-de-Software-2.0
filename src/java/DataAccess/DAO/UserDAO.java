@@ -8,6 +8,7 @@ package DataAccess.DAO;
 import DataAccess.Entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -23,15 +24,15 @@ public class UserDAO {
     
     public Usuario persist(Usuario aUser){
         EntityManager em = EFactory.createEntityManager();
-        
-        em.getTransaction().begin();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
         
         try {
             em.persist(aUser);
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
         }finally{
             em.close();
         }
@@ -57,19 +58,72 @@ public class UserDAO {
     
     public Usuario searchByName(String name){
         EntityManager em = EFactory.createEntityManager();
-        
         Usuario value = null;
+        Query q = em.createNamedQuery("Usuario.findByNombreUsuario");
+        q.setParameter(1, name);
         
         try {
-            value = em.find(Usuario.class, name);
+            value = (Usuario) q.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             em.close();
         }
-        
         return value;
     }
     
-    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory("ProfilerUN - EMF");
+    public Usuario searchByLastName(String lastName){
+        EntityManager em = EFactory.createEntityManager();
+        Usuario value = null;
+        Query q = em.createNamedQuery("Usuario.findByNombreUsuario");
+        q.setParameter(1, lastName);
+        
+        try {
+            value = (Usuario) q.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return value;
+    }
+    
+    public java.util.List<Usuario> findAll(){
+        EntityManager em = EFactory.createEntityManager();
+        java.util.List<Usuario> usuarios = null;
+        Query q = em.createNamedQuery("Usuario.findAll");
+        try {
+            usuarios = (java.util.List<Usuario>) q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return usuarios;
+    }
+    
+    public void edit(Usuario aUsr){
+        Usuario usuarioNew;
+        EntityManager em = EFactory.createEntityManager();  
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+        try {
+            usuarioNew = em.merge(em.find(Usuario.class, aUsr.getIdUsuario())); 
+            usuarioNew.setAliasUsuario(aUsr.getAliasUsuario());
+            usuarioNew.setActivo(aUsr.getActivo());
+            usuarioNew.setApellidoUsuario(aUsr.getApellidoUsuario());
+            usuarioNew.setFechaNacimientoUsuario(aUsr.getFechaNacimientoUsuario());
+            usuarioNew.setFechaRegistroUsuario(aUsr.getFechaRegistroUsuario());
+            usuarioNew.setNombreUsuario(aUsr.getNombreUsuario());
+            usuarioNew.setSexoUsuario(aUsr.getSexoUsuario());
+            usuarioNew.setTelefonoUsuario(aUsr.getTelefonoUsuario());            
+            et.commit();
+        } catch (Exception e){
+            et.rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);
 }

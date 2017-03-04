@@ -8,6 +8,7 @@ package DataAccess.DAO;
 import DataAccess.Entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
@@ -22,14 +23,15 @@ public class InfoVisibilityDAO {
     
     public VisibilidadInformacion persist(VisibilidadInformacion visibilityPermissions){
         EntityManager em = EFactory.createEntityManager();
-        em.getTransaction().begin();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
         
         try {
             em.persist(visibilityPermissions);
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
         }finally{
             em.close();
         }
@@ -56,8 +58,9 @@ public class InfoVisibilityDAO {
     
     public boolean editVisibilityFrom (VisibilidadInformacion visibilityPermissions){
         EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
         VisibilidadInformacion temp = null;
-        em.getTransaction().begin();
+        et.begin();
         boolean value = true;
         
         try {
@@ -67,10 +70,10 @@ public class InfoVisibilityDAO {
             temp.setVisFechaNac(visibilityPermissions.getVisFechaNac());
             temp.setVisSexo(visibilityPermissions.getVisSexo());
             temp.setVisTelefono(visibilityPermissions.getVisTelefono());
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {            
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
             value = false;
         }finally{            
             em.close();
@@ -79,5 +82,5 @@ public class InfoVisibilityDAO {
         return value;
     }
     
-    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory("ProfilerUN - EMF");
+    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);
 }

@@ -8,6 +8,7 @@ package DataAccess.DAO;
 import DataAccess.Entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
@@ -22,15 +23,16 @@ public class CategoryDAO {
     
     public Categoria persist(Categoria aCategory){
         EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
         
-        em.getTransaction().begin();
+        et.begin();
         
         try {
             em.persist(aCategory);
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
         }finally{
             em.close();
         }
@@ -92,5 +94,5 @@ public class CategoryDAO {
         return value;
     }
     
-    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory("ProfilerUN - EMF");
+    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);
 }

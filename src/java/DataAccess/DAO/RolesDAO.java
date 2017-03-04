@@ -8,6 +8,7 @@ package DataAccess.DAO;
 import DataAccess.Entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
@@ -22,14 +23,15 @@ public class RolesDAO {
     
     public Roles persist(Roles someRole){
         EntityManager em = EFactory.createEntityManager();
-        em.getTransaction().begin();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
         
         try {
             em.persist(someRole);
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
         }finally{
             em.close();
         }
@@ -53,5 +55,5 @@ public class RolesDAO {
         return value;
     }
     
-    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory("ProfilerUN - EMF");
+    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);
 }

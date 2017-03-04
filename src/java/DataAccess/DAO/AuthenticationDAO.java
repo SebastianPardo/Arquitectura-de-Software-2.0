@@ -8,6 +8,7 @@ package DataAccess.DAO;
 import DataAccess.Entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -23,15 +24,15 @@ public class AuthenticationDAO {
     
     public Autenticacion persist(Autenticacion anAuth){
         EntityManager em = EFactory.createEntityManager();
-        
-        em.getTransaction().begin();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
         
         try {
             em.persist(anAuth);
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
         }finally{
             em.close();
         }
@@ -52,6 +53,19 @@ public class AuthenticationDAO {
         }
         
         return value;
+    }
+    
+    public Autenticacion searchByUsrId(Integer usrId) {
+        EntityManager em = EFactory.createEntityManager();
+        Autenticacion autenticacion = null;
+        
+        try {
+            autenticacion = em.find(Autenticacion.class, usrId);
+        } catch (Exception e){
+        } finally {
+            em.close();
+        }
+        return autenticacion;
     }
     
     public boolean editAuthentication (Autenticacion anAuth){
@@ -76,5 +90,5 @@ public class AuthenticationDAO {
         return value;
     }
     
-    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory("ProfilerUN - AuthEMF");
+    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);
 }

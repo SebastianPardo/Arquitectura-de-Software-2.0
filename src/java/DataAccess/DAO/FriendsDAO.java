@@ -8,6 +8,7 @@ package DataAccess.DAO;
 import DataAccess.Entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 /**
  *
@@ -21,15 +22,16 @@ public class FriendsDAO {
     
     public Amigos persist(Amigos someFriends){
         EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
         
-        em.getTransaction().begin();
+        et.begin();
         
         try {
             em.persist(someFriends);
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
         }finally{
             em.close();
         }
@@ -39,18 +41,19 @@ public class FriendsDAO {
     
     public boolean editFriendship(Amigos someFriends){
         EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
         Amigos temp = null;
-        em.getTransaction().begin();        
+        et.begin();        
         boolean value = true;
     
         try {
             /*
              * No se como buscar cuando la llave primaria es combinación de 2 atributos
              */            
-            em.getTransaction().commit();
+            et.commit();
         } catch (Exception e) {            
             e.printStackTrace();
-            em.getTransaction().rollback();
+            et.rollback();
             value = false;
         }finally{            
             em.close();
@@ -69,5 +72,5 @@ public class FriendsDAO {
         return false;
     }
     
-    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory("ProfilerUN - EMF");
+    public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);
 }
