@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Autenticacion.findAll", query = "SELECT a FROM Autenticacion a")
     , @NamedQuery(name = "Autenticacion.findByIdUsuario", query = "SELECT a FROM Autenticacion a WHERE a.idUsuario = :idUsuario")
     , @NamedQuery(name = "Autenticacion.findByCorreo", query = "SELECT a FROM Autenticacion a WHERE a.correo = :correo")
-    , @NamedQuery(name = "Autenticacion.findByPass", query = "SELECT a FROM Autenticacion a WHERE a.pass = :pass")})
+    , @NamedQuery(name = "Autenticacion.findByPass", query = "SELECT a FROM Autenticacion a WHERE a.pass = :pass")
+    , @NamedQuery(name = "Autenticacion.aut", query = "SELECT a FROM Autenticacion a WHERE a.correo= :correo AND a.pass = :pass")})
 public class Autenticacion implements Serializable {
 
     private static final long serialVersionUID = 1L;

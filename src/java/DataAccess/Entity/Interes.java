@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Interes.findByFechaRegInteres", query = "SELECT i FROM Interes i WHERE i.fechaRegInteres = :fechaRegInteres")})
 public class Interes implements Serializable {
 
+    @ManyToMany(mappedBy = "interesCollection")
+    private Collection<Usuario> usuarioCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -53,10 +56,6 @@ public class Interes implements Serializable {
     @Column(name = "FECHA_REG_INTERES")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegInteres;
-    @ManyToMany(mappedBy = "interesCollection")
-    private Collection<Usuario> usuarioCollection;
-    @ManyToMany(mappedBy = "interesCollection")
-    private Collection<Categoria> categoriaCollection;
 
     public Interes() {
     }
@@ -95,24 +94,6 @@ public class Interes implements Serializable {
         this.fechaRegInteres = fechaRegInteres;
     }
 
-    @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
-    }
-
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
-    }
-
-    @XmlTransient
-    public Collection<Categoria> getCategoriaCollection() {
-        return categoriaCollection;
-    }
-
-    public void setCategoriaCollection(Collection<Categoria> categoriaCollection) {
-        this.categoriaCollection = categoriaCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -136,6 +117,15 @@ public class Interes implements Serializable {
     @Override
     public String toString() {
         return "DataAccess.Entity.Interes[ idInteres=" + idInteres + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
+    }
+
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
     }
     
 }

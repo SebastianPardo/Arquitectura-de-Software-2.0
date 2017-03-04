@@ -5,7 +5,7 @@
  */
 package DataAccess.DAO;
 
-import DataAccess.Entity.*;
+import DataAccess.Entity.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

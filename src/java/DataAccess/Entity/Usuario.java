@@ -9,17 +9,16 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,13 +47,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByFechaNacimientoUsuario", query = "SELECT u FROM Usuario u WHERE u.fechaNacimientoUsuario = :fechaNacimientoUsuario")})
 public class Usuario implements Serializable {
 
-    @ManyToMany(mappedBy = "usuarioCollection")
-    private Collection<Roles> rolesCollection;
+    @JoinTable(name = "USUARIO_INTERES", joinColumns = {
+        @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_INTERES", referencedColumnName = "ID_INTERES")})
+    @ManyToMany
+    private Collection<Interes> interesCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_USUARIO")
     private Integer idUsuario;
     @Basic(optional = false)
@@ -96,19 +98,6 @@ public class Usuario implements Serializable {
     @Column(name = "FECHA_NACIMIENTO_USUARIO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaNacimientoUsuario;
-    @JoinTable(name = "USUARIO_INTERES", joinColumns = {
-        @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_INTERES", referencedColumnName = "ID_INTERES")})
-    @ManyToMany
-    private Collection<Interes> interesCollection;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Autenticacion autenticacion;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private VisibilidadInformacion visibilidadInformacion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Collection<Amigos> amigosCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario1")
-    private Collection<Amigos> amigosCollection1;
 
     public Usuario() {
     }
@@ -201,49 +190,6 @@ public class Usuario implements Serializable {
         this.fechaNacimientoUsuario = fechaNacimientoUsuario;
     }
 
-    @XmlTransient
-    public Collection<Interes> getInteresCollection() {
-        return interesCollection;
-    }
-
-    public void setInteresCollection(Collection<Interes> interesCollection) {
-        this.interesCollection = interesCollection;
-    }
-
-    public Autenticacion getAutenticacion() {
-        return autenticacion;
-    }
-
-    public void setAutenticacion(Autenticacion autenticacion) {
-        this.autenticacion = autenticacion;
-    }
-
-    public VisibilidadInformacion getVisibilidadInformacion() {
-        return visibilidadInformacion;
-    }
-
-    public void setVisibilidadInformacion(VisibilidadInformacion visibilidadInformacion) {
-        this.visibilidadInformacion = visibilidadInformacion;
-    }
-
-    @XmlTransient
-    public Collection<Amigos> getAmigosCollection() {
-        return amigosCollection;
-    }
-
-    public void setAmigosCollection(Collection<Amigos> amigosCollection) {
-        this.amigosCollection = amigosCollection;
-    }
-
-    @XmlTransient
-    public Collection<Amigos> getAmigosCollection1() {
-        return amigosCollection1;
-    }
-
-    public void setAmigosCollection1(Collection<Amigos> amigosCollection1) {
-        this.amigosCollection1 = amigosCollection1;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -270,12 +216,12 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Roles> getRolesCollection() {
-        return rolesCollection;
+    public Collection<Interes> getInteresCollection() {
+        return interesCollection;
     }
 
-    public void setRolesCollection(Collection<Roles> rolesCollection) {
-        this.rolesCollection = rolesCollection;
+    public void setInteresCollection(Collection<Interes> interesCollection) {
+        this.interesCollection = interesCollection;
     }
     
 }

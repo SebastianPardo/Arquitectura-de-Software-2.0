@@ -19,7 +19,6 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class UserBean {
-    private Integer idUsuario;
     private String nombreUsuario;
     private String apellidoUsuario;
     private String aliasUsuario;
@@ -27,16 +26,9 @@ public class UserBean {
     private String telefonoUsuario;
     private Date fechaNacimientoUsuario;
     private String pass;
+    private String correo;
     private String message;
     private List<Usuario> usuarios;
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -94,6 +86,14 @@ public class UserBean {
         this.pass = pass;
     }
     
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+    
     public String getMessage() {
         return message;
     }
@@ -104,9 +104,9 @@ public class UserBean {
         
     public void createUser(){
         UserManager createUser = new UserManager();
-        message = createUser.createUser(idUsuario, nombreUsuario, 
+        message = createUser.createUser(nombreUsuario, 
                 apellidoUsuario, aliasUsuario, sexoUsuario, telefonoUsuario, 
-                true, fechaNacimientoUsuario, pass);
+                true, fechaNacimientoUsuario, pass, correo);
     }
 
     public List<Usuario> getUsuarios() {

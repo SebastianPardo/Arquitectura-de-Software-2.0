@@ -42,17 +42,19 @@ public class AuthenticationDAO {
     
     public Autenticacion searhByMail (String mail){
         EntityManager em = EFactory.createEntityManager();
-        Autenticacion value = null;
+        Autenticacion autenticacion = null;
+        Query q = em.createNamedQuery("Autenticacion.findByCorreo");
+        q.setParameter(1, mail);
         
         try {
-            value = em.find(Autenticacion.class, mail);
+            autenticacion = (Autenticacion)q.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
             em.close();
         }
         
-        return value;
+        return autenticacion;
     }
     
     public Autenticacion searchByUsrId(Integer usrId) {
@@ -61,6 +63,21 @@ public class AuthenticationDAO {
         
         try {
             autenticacion = em.find(Autenticacion.class, usrId);
+        } catch (Exception e){
+        } finally {
+            em.close();
+        }
+        return autenticacion;
+    }
+    
+    public Autenticacion searchByUsrData(String mail, String pass) {
+        EntityManager em = EFactory.createEntityManager();
+        Autenticacion autenticacion = null;
+        Query q = em.createNamedQuery("Autenticacion.aut");
+        q.setParameter("correo", mail);
+        q.setParameter("pass", pass);
+        try {
+            autenticacion = (Autenticacion)q.getSingleResult();
         } catch (Exception e){
         } finally {
             em.close();
