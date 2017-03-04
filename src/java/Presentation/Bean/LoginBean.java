@@ -5,26 +5,28 @@
  */
 package Presentation.Bean;
 
+import BusinessLogic.Controller.AppController;
 import BusinessLogic.Controller.UserManager;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import BusinessLogic.Controller.UserView;
+import javax.faces.bean.*;
 
 /**
  *
  * @author arqsoft2017i
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class LoginBean {
-
-    private String pass;
-    private String correo;
-    private String message;
+    
+    public LoginBean(){        
+        usrId = UserManager.noUsrId;
+    }
     
     public String getPass() {
         return pass;
     }
 
+    /* Es en este método que debemos hacer la encripción y es la encripción lo que debe alamacenarse */
     public void setPass(String pass) {
         this.pass = pass;
     }
@@ -45,12 +47,44 @@ public class LoginBean {
         this.message = message;
     }
     
+    /*
+     * En este método sólo verificamos si el usuario se conectó d eforma exitosa.
+     * El atributo usrId está en -1 sólo si no se han conectado.
+     */
+    public boolean isOnline(){
+        return (usrId > UserManager.noUsrId);
+    }
+    
     public void login(){
-        if((new UserManager()).login(correo, pass))
+        Integer someId = AppController.create().login(correo, pass);        
+        if(someId > UserManager.noUsrId){                        
+            usrId = someId;
+            loadUserData();
             message = "Loggeado";
-        else
+        }else{
+            usrId = UserManager.noUsrId;
             message = "Datos erroneos";
+        }        
+    }
+    
+    public void logout(){
+        usrId = UserManager.noUsrId;
     }
 
+    private boolean loadUserData(){
+        boolean value = false;
+        
+        if(isOnline()){
+            usrView = AppController.create().loadUser(usrId);
+            usrView.setUsrMail(correo);
+        }
+        
+        return value;
+    }
     
+    private String pass;
+    private String correo;
+    private String message;       
+    private Integer usrId;
+    private UserView usrView;
 }
