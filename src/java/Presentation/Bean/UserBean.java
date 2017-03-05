@@ -20,11 +20,6 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class UserBean implements Serializable {
-
-    @ManagedProperty("#{login}")
-    private LoginBean login;
-
-    private ArrayList<Usuario> usuarios;
     
     public UserBean(){
         
@@ -55,4 +50,9 @@ public class UserBean implements Serializable {
     public void deleteFriend(String id){
         
     }
+    
+    @ManagedProperty("#{login}")
+    private LoginBean login;
+
+    private ArrayList<Usuario> usuarios;
 }

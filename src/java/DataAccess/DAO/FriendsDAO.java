@@ -124,17 +124,23 @@ public class FriendsDAO {
         return usrFriends;
     }
     
-    public List<Amigos> getSugestedFriendsFrom (Integer usrId){
+    public List<Usuario> getSugestedFriendsFrom (Integer usrId){
         EntityManager em = EFactory.createEntityManager();
-        List<Amigos> usrFriends = null;
-        Query q = em.createNamedQuery("Amigos.findAmigosRecomendados").setParameter("idUsuario", usrId);
+        List<Usuario> usrFriends = null;
+        //Query q = em.createNamedQuery("Amigos.findAmigosRecomendados").setParameter("idUsuario", usrId);
+        Query q = em.createNativeQuery("SELECT DISTINCT c.* FROM USUARIO b INNER JOIN AMIGOS am1 ON b.ID_USUARIO = am1.ID_USUARIO INNER JOIN USUARIO c ON c.ID_USUARIO = am1.ID_AMIGO AND b.ID_USUARIO IN ( SELECT DISTINCT b.ID_USUARIO FROM USUARIO a INNER JOIN AMIGOS am ON a.ID_USUARIO = am.ID_USUARIO INNER JOIN USUARIO b ON b.ID_USUARIO = am.ID_AMIGO AND a.ID_USUARIO = ?1 )AND c.ID_USUARIO not in( SELECT DISTINCT c.id_usuario FROM USUARIO a INNER JOIN AMIGOS am3 ON a.ID_USUARIO = am3.ID_USUARIO INNER JOIN USUARIO c on c.ID_USUARIO = am3.ID_AMIGO AND a.ID_USUARIO = ?1 ) and c.ID_USUARIO <>?1",Usuario.class).setParameter(1, usrId);
         try {
-            usrFriends = (List<Amigos>) q.getResultList();
+            usrFriends = q.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             em.close();
         }
+        
+        for(Usuario a:usrFriends){            
+            System.out.println(a.toString());
+        }
+        
         return usrFriends;
     }
     

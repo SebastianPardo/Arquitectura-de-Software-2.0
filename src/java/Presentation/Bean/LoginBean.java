@@ -48,7 +48,7 @@ public class LoginBean {
         this.message = message;
     }
     /*
-     * En este método sólo verificamos si el usuario se conectó d eforma exitosa.
+     * En este método sólo verificamos si el usuario se conectó de forma exitosa.
      * El atributo usrId está en -1 sólo si no se han conectado.
      */
     public boolean isOnline(){
@@ -56,7 +56,7 @@ public class LoginBean {
     }
     
     public String login(){
-        Integer someId = AppController.create().login(correo, pass);        
+        Integer someId = AppController.create().login(correo, pass);       
         if(someId > UserManager.noUsrId){                        
             usrId = someId;
             loadUserData();
@@ -64,7 +64,7 @@ public class LoginBean {
         }else{
             usrId = UserManager.noUsrId;
             message = "Datos erroneos";
-        return null;
+            return null;
         }        
     }
     
@@ -77,7 +77,7 @@ public class LoginBean {
         
         if(isOnline()){
             usrView = AppController.create().loadUser(usrId);
-            usrView.setUsrMail(correo);
+            usrView.setUsrMail(correo);            
         }
         
         return value;
