@@ -5,26 +5,31 @@
  */
 package BusinessLogic.Controller;
 
+import DataAccess.DAO.AuthenticationDAO;
+import DataAccess.DAO.FriendsDAO;
+import DataAccess.DAO.UserDAO;
+import DataAccess.Entity.Amigos;
 import DataAccess.Entity.Usuario;
-import java.util.ArrayList;
 
 /**
  *
  * @author arqsoft2017i
  */
 public class FriendsManager {
-    
-    
-    private ArrayList<Usuario> amigos;
+        
     public FriendsManager(){
     
     }
     
-    public ArrayList<Usuario> getFriendsFrom(Integer usrId){
-        return null;
-    }
-    
-    public ArrayList<Usuario> getFriendsFrom(String mail){
-        return null;
-    }
+    public java.util.ArrayList<UserView> getFriendsFrom(Integer usrId){
+        java.util.List<Amigos> friendsList = (new FriendsDAO()).getFriendsFrom(usrId);
+        java.util.ArrayList<UserView> usrFriends = new java.util.ArrayList<>();
+        
+        for (Amigos someFriends : friendsList) {
+            Usuario aFriend = (new UserDAO()).searchById(someFriends.getAmigosPK().getIdAmigo());            
+            usrFriends.add(new UserView(aFriend.getIdUsuario(), "", aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
+        }
+        
+        return usrFriends;
+    }    
 }

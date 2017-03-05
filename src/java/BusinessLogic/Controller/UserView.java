@@ -5,6 +5,8 @@
  */
 package BusinessLogic.Controller;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author arqsoft2017i
@@ -73,11 +75,30 @@ public class UserView {
         }
     }
     
+    public java.util.ArrayList<UserView> getUsrFriends(){
+        if(usrFriends == null){
+            if(usrId > noUsrId){
+                usrFriends = AppController.create().loadFriendsFrom(usrId);
+            }else{
+                usrFriends = new ArrayList<>();
+            }
+        }
+        
+        return usrFriends;
+    }
+    
+    public void setUsrFriends(java.util.ArrayList<UserView> someFriends){
+        if(usrFriends == null){
+            usrFriends = someFriends;
+        }
+    }
+    
     private Integer usrId;
     private String usrMail;    
     private String usrAlias;
     private String usrName;
     private String usrLastName;
+    private java.util.ArrayList<UserView> usrFriends;
     
     public static final Integer noUsrId = -1;
     public static final String emptyString = "";

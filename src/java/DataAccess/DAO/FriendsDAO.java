@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 /**
  *
  * @author arqsoft2017i
@@ -62,10 +63,18 @@ public class FriendsDAO {
         return value;
     }
     
-    public void getFriendsFrom (Integer usrId){
-        /*
-         * En este caso hay que obtener una lista, ya sea de amigos o identificadores de usuario
-         */
+    public java.util.List<Amigos> getFriendsFrom (Integer usrId){
+        EntityManager em = EFactory.createEntityManager();
+        java.util.List<Amigos> usrFriends = null;
+        Query q = em.createNamedQuery("Amigos.findByIdUsuario").setParameter("idUsuario", usrId);
+        try {
+            usrFriends = (java.util.List<Amigos>) q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return usrFriends;
     }
     
     public boolean deleteFriend(Amigos someFriends){
