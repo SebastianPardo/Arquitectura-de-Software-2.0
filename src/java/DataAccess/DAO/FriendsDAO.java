@@ -22,36 +22,60 @@ public class FriendsDAO {
         
     }
     
-    public Amigos persist(Amigos someFriends){
+    public boolean persist(Amigos someFriends){
+        boolean value = true;
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();
         
         et.begin();
         
         try {
+            Amigos someFriends_ = new Amigos(new AmigosPK(someFriends.getAmigosPK().getIdAmigo(),someFriends.getAmigosPK().getIdUsuario()), someFriends.getEstatusRelacion());
             em.persist(someFriends);
+            em.persist(someFriends_);
             et.commit();
         } catch (Exception e) {
             e.printStackTrace();
             et.rollback();
+            value = false;
         }finally{
             em.close();
         }
         
-        return someFriends;
+        return value;
+    }
+    
+    public boolean persist(Amigos newFriendsSideA, Amigos newFriendsSideB){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        
+        et.begin();
+        
+        try {            
+            em.persist(newFriendsSideA);
+            em.persist(newFriendsSideB);
+            et.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            et.rollback();
+            value = false;
+        }finally{
+            em.close();
+        }
+        
+        return value;
     }
     
     public boolean editFriendship(Amigos someFriends){
         EntityManager em = EFactory.createEntityManager();
-        EntityTransaction et = em.getTransaction();
-        Amigos temp = null;
+        EntityTransaction et = em.getTransaction();         
         et.begin();        
         boolean value = true;
     
         try {
-            /*
-             * No se como buscar cuando la llave primaria es combinación de 2 atributos
-             */            
+            Amigos temp = em.merge(em.find(Amigos.class, someFriends.getAmigosPK()));
+            temp.setEstatusRelacion(someFriends.getEstatusRelacion());
             et.commit();
         } catch (Exception e) {            
             e.printStackTrace();
@@ -83,4 +107,8 @@ public class FriendsDAO {
     }
     
     public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);
+    
+    public static final Integer Friends = 1;
+    public static final Integer Pending = 2;
+    public static final Integer Blocked = 3;
 }
