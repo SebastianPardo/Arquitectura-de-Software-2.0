@@ -27,7 +27,7 @@ public class FriendsManager {
         
         for (Amigos someFriends : friendsList) {
             Usuario aFriend = (new UserDAO()).searchById(someFriends.getAmigosPK().getIdAmigo());            
-            usrFriends.add(new UserView(aFriend.getIdUsuario(), "", aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
+            usrFriends.add(new UserView(aFriend.getIdUsuario(), (new AuthenticationDAO()).searchByUsrId(usrId).getCorreo(), aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
         }
         
         return usrFriends;
