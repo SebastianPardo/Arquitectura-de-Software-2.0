@@ -40,6 +40,25 @@ public class CategoryDAO {
         return aCategory;
     }
     
+    public boolean remove(Categoria aCategory){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        try {
+            em.remove(aCategory);
+            et.commit();
+        } catch (Exception e) {
+            value = false;
+            e.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+        return value;
+    }
+    
     public Categoria searchById(Integer catId){
         EntityManager em = EFactory.createEntityManager();
         

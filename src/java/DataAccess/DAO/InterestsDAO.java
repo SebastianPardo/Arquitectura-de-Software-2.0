@@ -39,6 +39,25 @@ public class InterestsDAO {
         return someInterest;
     }
     
+    public boolean remove(Interes someInterest){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        try {
+            em.remove(someInterest);
+            et.commit();
+        } catch (Exception e) {
+            value = false;
+            e.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+        return value;
+    }
+    
     public Interes searchById(Integer intId){
         EntityManager em = EFactory.createEntityManager();
         

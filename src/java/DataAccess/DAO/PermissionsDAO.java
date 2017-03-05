@@ -39,6 +39,25 @@ public class PermissionsDAO {
         return permissions;
     }
     
+    public boolean remove(Permisos permissions){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        try {
+            em.remove(permissions);
+            et.commit();
+        } catch (Exception e) {
+            value = false;
+            e.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+        return value;
+    }
+    
     public Permisos searchById(Integer permId){
         EntityManager em = EFactory.createEntityManager();
         

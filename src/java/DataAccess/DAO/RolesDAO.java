@@ -39,6 +39,25 @@ public class RolesDAO {
         return someRole;
     }
     
+    public boolean remove(Roles someRole){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        try {
+            em.remove(someRole);
+            et.commit();
+        } catch (Exception e) {
+            value = false;
+            e.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+        return value;
+    }
+    
     public Roles searchById(Integer roleId){
         EntityManager em = EFactory.createEntityManager();
         

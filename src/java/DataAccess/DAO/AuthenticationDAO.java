@@ -41,6 +41,25 @@ public class AuthenticationDAO {
         return anAuth;
     }
     
+    public boolean remove(Autenticacion anAuth){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        try {
+            em.remove(anAuth);
+            et.commit();
+        } catch (Exception e) {
+            value = false;
+            e.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+        return value;
+    }    
+    
     public Autenticacion searhByMail (String mail){
         EntityManager em = EFactory.createEntityManager();
         Autenticacion autenticacion = null;

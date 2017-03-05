@@ -39,6 +39,25 @@ public class InfoVisibilityDAO {
         return visibilityPermissions;
     }
     
+    public boolean remove(VisibilidadInformacion visibilityPermissions){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        try {
+            em.remove(visibilityPermissions);
+            et.commit();
+        } catch (Exception e) {
+            value = false;
+            e.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+        return value;
+    }
+    
     public VisibilidadInformacion searchByUsrId(Integer usrId){
     
         EntityManager em = EFactory.createEntityManager();

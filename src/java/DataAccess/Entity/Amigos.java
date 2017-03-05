@@ -91,7 +91,7 @@ public class Amigos implements Serializable {
         return amigo;
     }
 
-    public void setAamigo(Usuario amigo) {
+    public void setAmigo(Usuario amigo) {
         this.amigo = amigo;
     }
 

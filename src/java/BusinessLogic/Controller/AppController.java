@@ -33,6 +33,10 @@ public class AppController{
         return frdManager.getFriendsFrom(usrId);
     }
     
+    public java.util.ArrayList<UserView> loadSugestedFriendsFrom(Integer usrId){
+        return frdManager.getFriendsFrom(usrId);
+    }
+    
     private UserManager usrManager;
     private FriendsManager frdManager;
     private ProfileManager pflManager;

@@ -24,7 +24,7 @@ public class UserDAO {
 
     }
 
-    public Usuario persist(Usuario aUser) throws PersistenceException {
+    public Usuario persist(Usuario aUser) throws PersistenceException {        
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();
         et.begin();
@@ -32,18 +32,37 @@ public class UserDAO {
         try {
             em.persist(aUser);
             et.commit();
-        } catch (PersistenceException e) {
+        } catch (PersistenceException e) {            
             //e.printStackTrace();
             et.rollback();
             throw e;
-        } catch (Exception e) {
+        } catch (Exception e) {            
             e.printStackTrace();
             et.rollback();
         } finally {
             em.close();
         }
         return aUser;
-    }
+    } 
+    
+    public boolean remove(Usuario aUser){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        et.begin();
+
+        try {
+            em.remove(aUser);
+            et.commit();
+        } catch (Exception e) {
+            value = false;
+            e.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+        return value;
+    } 
 
     public Usuario searchById(Integer usrId) {
         EntityManager em = EFactory.createEntityManager();

@@ -67,6 +67,26 @@ public class FriendsDAO {
         return value;
     }
     
+    public boolean remove(Amigos someFriends){
+        boolean value = true;
+        EntityManager em = EFactory.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        
+        et.begin();
+        try {                        
+            em.remove(someFriends);
+            et.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            et.rollback();
+            value = false;
+        }finally{
+            em.close();
+        }
+        
+        return value;
+    }
+    
     public boolean editFriendship(Amigos someFriends){
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();         
@@ -75,6 +95,8 @@ public class FriendsDAO {
     
         try {
             Amigos temp = em.merge(em.find(Amigos.class, someFriends.getAmigosPK()));
+            temp.setAmigo(someFriends.getAmigo());
+            temp.setUsuario(someFriends.getUsuario());
             temp.setEstatusRelacion(someFriends.getEstatusRelacion());
             et.commit();
         } catch (Exception e) {            
@@ -102,8 +124,18 @@ public class FriendsDAO {
         return usrFriends;
     }
     
-    public boolean deleteFriend(Amigos someFriends){
-        return false;
+    public List<Amigos> getSugestedFriendsFrom (Integer usrId){
+        EntityManager em = EFactory.createEntityManager();
+        List<Amigos> usrFriends = null;
+        Query q = em.createNamedQuery("Amigos.findAmigosRecomendados").setParameter("idUsuario", usrId);
+        try {
+            usrFriends = (List<Amigos>) q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return usrFriends;
     }
     
     public EntityManagerFactory EFactory = Persistence.createEntityManagerFactory(DataAccess.Entity.DataBaseController.DB_NAME);

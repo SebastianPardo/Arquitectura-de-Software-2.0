@@ -87,6 +87,18 @@ public class UserView {
         return usrFriends;
     }
     
+    public java.util.ArrayList<UserView> getUsrSuggestedFriends(){
+        if(usrFriends == null){
+            if(usrId > noUsrId){
+                usrFriends = AppController.create().loadSugestedFriendsFrom(usrId);
+            }else{
+                usrFriends = new ArrayList<>();
+            }
+        }
+        
+        return usrFriends;
+    }
+    
     public void setUsrFriends(java.util.ArrayList<UserView> someFriends){
         if(usrFriends == null){
             usrFriends = someFriends;
