@@ -49,9 +49,10 @@ public class FriendsDAO {
         boolean value = true;
     
         try {
-            /*
-             * No se como buscar cuando la llave primaria es combinación de 2 atributos
-             */            
+            temp = em.merge(em.find(Amigos.class, someFriends.getAmigosPK()));
+            temp.setAmigo(someFriends.getAmigo());
+            temp.setUsuario(someFriends.getUsuario());
+            temp.setEstatusRelacion(someFriends.getEstatusRelacion());
             et.commit();
         } catch (Exception e) {            
             e.printStackTrace();
@@ -68,6 +69,20 @@ public class FriendsDAO {
         EntityManager em = EFactory.createEntityManager();
         List<Amigos> usrFriends = null;
         Query q = em.createNamedQuery("Amigos.findByIdUsuario").setParameter("idUsuario", usrId);
+        try {
+            usrFriends = (List<Amigos>) q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return usrFriends;
+    }
+    
+    public List<Amigos> getSugestedFriendsFrom (Integer usrId){
+        EntityManager em = EFactory.createEntityManager();
+        List<Amigos> usrFriends = null;
+        Query q = em.createNamedQuery("Amigos.findAmigosRecomendados").setParameter("idUsuario", usrId);
         try {
             usrFriends = (List<Amigos>) q.getResultList();
         } catch (Exception e) {

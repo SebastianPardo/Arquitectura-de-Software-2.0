@@ -31,5 +31,18 @@ public class FriendsManager {
         }
         
         return usrFriends;
+    }
+
+    public java.util.ArrayList<UserView> getFriendsSugestedFrom(Integer usrId){
+        java.util.List<Amigos> friendsList = (new FriendsDAO()).getFriendsFrom(usrId);
+        java.util.ArrayList<UserView> usrFriends = new java.util.ArrayList<>();
+        
+        for (Amigos someFriend : friendsList) {
+            
+            Usuario aFriend = someFriend.getAmigo();
+            usrFriends.add(new UserView(aFriend.getIdUsuario(), aFriend.getAutenticacion().getCorreo(), aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
+        }
+        
+        return usrFriends;
     }    
 }
