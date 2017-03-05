@@ -25,7 +25,6 @@ public class FriendsManager {
         java.util.ArrayList<UserView> usrFriends = new java.util.ArrayList<>();
         
         for (Amigos someFriend : friendsList) {
-            
             Usuario aFriend = someFriend.getAmigo();
             usrFriends.add(new UserView(aFriend.getIdUsuario(), aFriend.getAutenticacion().getCorreo(), aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
         }
@@ -62,7 +61,7 @@ public class FriendsManager {
     }
     
     public boolean answerFriendRequest(Integer usrId, Integer senderId, boolean didAccept){
-        boolean value = false;
+        boolean value;
         
         Amigos friends = new Amigos(new AmigosPK(senderId, usrId), FriendsDAO.Friends); 
         
@@ -76,21 +75,17 @@ public class FriendsManager {
     }
     
     public boolean blockUser(Integer usrId, Integer blockedId){
-        boolean value = false;
-        
         Amigos friends = new Amigos(new AmigosPK(usrId, blockedId), FriendsDAO.Blocked);
         
-        value = (new FriendsDAO()).editFriendship(friends);
+        boolean value = (new FriendsDAO()).editFriendship(friends);
         
         return value;   
     }
     
-    public boolean deleteFriend(Integer usrId, Integer frdId){
-        boolean value = false;
-        
+    public boolean deleteFriend(Integer usrId, Integer frdId){        
         Amigos friends = new Amigos(new AmigosPK(usrId, frdId), FriendsDAO.Friends);
         
-        value = (new FriendsDAO()).remove(friends);
+        boolean value = (new FriendsDAO()).remove(friends);
         
         return value;   
     }
