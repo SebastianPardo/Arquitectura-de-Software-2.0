@@ -5,7 +5,6 @@
  */
 package BusinessLogic.Controller;
 
-import DataAccess.DAO.AuthenticationDAO;
 import DataAccess.DAO.FriendsDAO;
 import DataAccess.DAO.UserDAO;
 import DataAccess.Entity.Amigos;
@@ -25,9 +24,10 @@ public class FriendsManager {
         java.util.List<Amigos> friendsList = (new FriendsDAO()).getFriendsFrom(usrId);
         java.util.ArrayList<UserView> usrFriends = new java.util.ArrayList<>();
         
-        for (Amigos someFriends : friendsList) {
-            Usuario aFriend = (new UserDAO()).searchById(someFriends.getAmigosPK().getIdAmigo());            
-            usrFriends.add(new UserView(aFriend.getIdUsuario(), "", aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
+        for (Amigos someFriend : friendsList) {
+            
+            Usuario aFriend = someFriend.getAmigo();
+            usrFriends.add(new UserView(aFriend.getIdUsuario(), aFriend.getAutenticacion().getCorreo(), aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
         }
         
         return usrFriends;

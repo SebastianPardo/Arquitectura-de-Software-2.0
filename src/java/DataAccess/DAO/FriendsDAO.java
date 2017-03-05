@@ -6,6 +6,7 @@
 package DataAccess.DAO;
 
 import DataAccess.Entity.*;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -63,12 +64,12 @@ public class FriendsDAO {
         return value;
     }
     
-    public java.util.List<Amigos> getFriendsFrom (Integer usrId){
+    public List<Amigos> getFriendsFrom (Integer usrId){
         EntityManager em = EFactory.createEntityManager();
-        java.util.List<Amigos> usrFriends = null;
+        List<Amigos> usrFriends = null;
         Query q = em.createNamedQuery("Amigos.findByIdUsuario").setParameter("idUsuario", usrId);
         try {
-            usrFriends = (java.util.List<Amigos>) q.getResultList();
+            usrFriends = (List<Amigos>) q.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

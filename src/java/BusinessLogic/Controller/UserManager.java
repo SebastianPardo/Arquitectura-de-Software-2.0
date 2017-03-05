@@ -9,6 +9,7 @@ import DataAccess.DAO.AuthenticationDAO;
 import DataAccess.DAO.UserDAO;
 import DataAccess.Entity.Autenticacion;
 import DataAccess.Entity.Usuario;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.PersistenceException;
@@ -92,5 +93,16 @@ public class UserManager {
         return value;
     }
     
+    public ArrayList<Usuario> getUsuarios() {
+        if (usuarios == null) {
+            usuarios = new ArrayList<>((new UserManager()).usuarios());
+            usuarios.sort((Usuario user1, Usuario user2) -> 
+                    user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
+        }
+        return usuarios;
+    }
+    
+    
+    private ArrayList<Usuario> usuarios;
     public static Integer noUsrId = -1;
 }

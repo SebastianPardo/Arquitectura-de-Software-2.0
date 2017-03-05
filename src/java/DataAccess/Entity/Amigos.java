@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Amigos.findAll", query = "SELECT a FROM Amigos a")
     , @NamedQuery(name = "Amigos.findByIdUsuario", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idUsuario = :idUsuario")
     , @NamedQuery(name = "Amigos.findByIdAmigo", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idAmigo = :idAmigo")
-    , @NamedQuery(name = "Amigos.findByEstatusRelacion", query = "SELECT a FROM Amigos a WHERE a.estatusRelacion = :estatusRelacion")})
+    , @NamedQuery(name = "Amigos.findByEstatusRelacion", query = "SELECT a FROM Amigos a WHERE a.estatusRelacion = :estatusRelacion")
+    , @NamedQuery(name = "Amigos.findAmigosRecomendados", query = "SELECT a FROM Amigos a, Amigos b WHERE a.amigosPK.idUsuario != :idUsuario AND b.amigosPK.idUsuario = :idUsuario AND a.amigosPK.idAmigo=b.amigosPK.idAmigo")})
 public class Amigos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +45,7 @@ public class Amigos implements Serializable {
     private Usuario usuario;
     @JoinColumn(name = "ID_AMIGO", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Usuario usuario1;
+    private Usuario amigo;
 
     public Amigos() {
     }
@@ -86,12 +87,12 @@ public class Amigos implements Serializable {
         this.usuario = usuario;
     }
 
-    public Usuario getUsuario1() {
-        return usuario1;
+    public Usuario getAmigo() {
+        return amigo;
     }
 
-    public void setUsuario1(Usuario usuario1) {
-        this.usuario1 = usuario1;
+    public void setAamigo(Usuario amigo) {
+        this.amigo = amigo;
     }
 
     @Override

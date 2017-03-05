@@ -48,7 +48,11 @@ public class UserBean implements Serializable {
     }
     
     
-    public void addAmigo(String id){
+    public void addFriend(String id){
+        
+    }
+    
+    public void deleteFriend(String id){
         
     }
 }

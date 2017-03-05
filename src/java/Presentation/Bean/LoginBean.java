@@ -60,7 +60,7 @@ public class LoginBean {
         if(someId > UserManager.noUsrId){                        
             usrId = someId;
             loadUserData();
-            return "usuarios";
+            return "perfil";
         }else{
             usrId = UserManager.noUsrId;
             message = "Datos erroneos";
@@ -81,6 +81,10 @@ public class LoginBean {
         }
         
         return value;
+    }
+    
+    public UserView getUser(){
+        return usrView;
     }
     
     private String pass;
