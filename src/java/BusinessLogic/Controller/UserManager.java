@@ -6,6 +6,7 @@
 package BusinessLogic.Controller;
 
 import DataAccess.DAO.AuthenticationDAO;
+import DataAccess.DAO.FriendsDAO;
 import DataAccess.DAO.UserDAO;
 import DataAccess.Entity.Autenticacion;
 import DataAccess.Entity.Usuario;
@@ -84,10 +85,18 @@ public class UserManager {
         Usuario usr = usrDAO.searchById(usrId);
         
         if(usr != null){        
-            value.setUsrId(usr.getIdUsuario());            
-            value.setUsrAlias(usr.getAliasUsuario());
-            value.setUsrName(usr.getNombreUsuario());
-            value.setUsrLastName(usr.getApellidoUsuario());
+            value = new UserView(usr);
+        }
+        
+        return value;
+    }
+    
+    public java.util.ArrayList<UserView> loadAllUsers(){        
+        java.util.ArrayList<UserView> value = new java.util.ArrayList<>();
+        java.util.ArrayList<Usuario> usrs = this.getUsuarios();
+        
+        for(Usuario aUsr: usrs){
+            value.add(new UserView(aUsr));
         }
         
         return value;
@@ -102,6 +111,17 @@ public class UserManager {
         return usuarios;
     }
     
+    public ArrayList<UserView> getSuggestedFrom(Integer usrId){
+        List<Usuario> sFriends = (new FriendsDAO()).getSugestedFriendsFrom(usrId);
+        ArrayList<UserView> suggested = new ArrayList<>();
+        
+        for(Usuario aUser : sFriends){
+            UserView value = new UserView(aUser);
+            suggested.add(value);
+        }
+        
+        return suggested;
+    }
     
     private ArrayList<Usuario> usuarios;
     public static Integer noUsrId = -1;

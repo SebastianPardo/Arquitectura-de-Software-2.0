@@ -6,6 +6,7 @@
 package BusinessLogic.Controller;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -14,102 +15,124 @@ import java.util.ArrayList;
 public class UserView {
     
     public UserView(){
-        this(noUsrId, emptyString, emptyString, emptyString, emptyString);
+        this(null);
     }
     
-    public UserView(Integer aUsrId, String aUsrMail, String aUsrAlias, String aUsrName, String aUsrLastName){
-        usrId = aUsrId;
-        usrMail = aUsrMail;
-        usrAlias = aUsrAlias;
-        usrName = aUsrName;
-        usrLastName = aUsrLastName;
+    public UserView(DataAccess.Entity.Usuario usrData){
+        this.usrData = usrData;
     }
         
     public Integer getUsrId(){
-        return usrId;
+        Integer value = noUsrId;
+        
+        if(usrData != null){
+            value = usrData.getIdUsuario();
+        }
+        
+        return value;
     }
     
     public void setUsrId(Integer aUsrId){
-        if(usrId == noUsrId){
-            usrId = aUsrId;
+        if(usrData != null){
+            usrData.setIdUsuario(aUsrId);
         }
     }
     
     public String getUsrMail(){
-        return usrMail;
+        String value = emptyString;
+        
+        if(usrData != null){
+            value = usrData.getAutenticacion().getCorreo();
+        }
+        
+        return value;
     }
     
     public void setUsrMail(String aUsrMail){
-        if(usrMail == emptyString){
-            usrMail = aUsrMail;
+        if(usrData != null){
+            usrData.getAutenticacion().setCorreo(aUsrMail);
         }
     }
     
     public String getUsrAlias(){
-        return usrAlias;
+        String value = emptyString;
+        
+        if(usrData != null){
+            value = usrData.getAliasUsuario();
+        }
+        
+        return value;
     }
     
     public void setUsrAlias(String aUsrAlias){
-        if(usrAlias == emptyString){
-            usrAlias = aUsrAlias;
+        if(usrData != null){
+            usrData.setAliasUsuario(aUsrAlias);
         }
     }
     
     public String getUsrName(){
-        return usrName;
+        String value = emptyString;
+        
+        if(usrData != null){
+            value = usrData.getNombreUsuario();
+        }
+        
+        return value;
     }
     
-    public void setUsrName(String aUsrAlias){
-        if(usrName == emptyString){
-            usrName = aUsrAlias;
+    public void setUsrName(String aUsrName){
+        if(usrData != null){
+            usrData.setNombreUsuario(aUsrName);
         }
     }
     
     public String getUsrLastName(){
-        return usrLastName;
+        String value = emptyString;
+        
+        if(usrData != null){
+            value = usrData.getApellidoUsuario();
+        }
+        
+        return value;
     }
     
-    public void setUsrLastName(String aUsrAlias){
-        if(usrLastName == emptyString){
-            usrLastName = aUsrAlias;
+    public void setUsrLastName(String aUsrLastName){
+        if(usrData != null){
+            usrData.setApellidoUsuario(aUsrLastName);
         }
     }
     
     public java.util.ArrayList<UserView> getUsrFriends(){
         if(usrFriends == null){
-            if(usrId > noUsrId){
-                usrFriends = AppController.create().loadFriendsFrom(usrId);
+            if(usrData != null){
+                usrFriends = AppController.create().loadFriendsFrom(usrData.getIdUsuario());
             }else{
                 usrFriends = new ArrayList<>();
-            }
+            }          
         }
-        
+
         return usrFriends;
     }
     
     public java.util.ArrayList<UserView> getUsrSuggestedFriends(){
         if(usrFriends == null){
-            if(usrId > noUsrId){
-                usrFriends = AppController.create().loadSugestedFriendsFrom(usrId);
+            if(usrData != null){
+                usrFriends = AppController.create().loadSugestedFriendsFrom(usrData.getIdUsuario());
             }else{
                 usrFriends = new ArrayList<>();
             }
         }
-        
+
         return usrFriends;
     }
-    
-    public void setUsrFriends(java.util.ArrayList<UserView> someFriends){
-        if(usrFriends == null){
+
+    public void setUsrFriends(ArrayList<UserView> someFriends) {
+        if (usrFriends == null) {
             usrFriends = someFriends;
         }
-    }
+    }    
     
-    private Integer usrId;
-    private String usrMail;    
-    private String usrAlias;
-    private String usrName;
-    private String usrLastName;
+    private DataAccess.Entity.Usuario usrData;
     private java.util.ArrayList<UserView> usrFriends;
     
     public static final Integer noUsrId = -1;

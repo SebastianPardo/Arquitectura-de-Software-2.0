@@ -12,30 +12,45 @@ and open the template in the editor.
     <h:head>
         <title>Lista usuarios</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
     </h:head>
     <body>
-        <h:form> 
-            <p:dataScroller value="#{userBean.usuarios}" var="usuario" chunkSize="10">
+        <h:form >
+
+            <p:dataTable var="usuario" value="#{userBean.usuarios}" widgetVar="carsTable"
+                         emptyMessage="No se encontraron usuarios" filteredValue="#{userBean.usuariosFiltrados}" stickyHeader="true" >
                 <f:facet name="header">
-                    Se muestran todos los usuarios
-                </f:facet>
-
-                <h:panelGrid columns="2" style="width:100%" columnClasses="detail">
                     <p:outputPanel>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputText value="Alias:" />
-                            <h:outputText value="#{usuario.aliasUsuario}" style="font-weight: bold"/>
-
-                            <h:outputText value="Nombre:" />
-                            <h:outputText value="#{usuario.nombreUsuario}" style="font-weight: bold"/>
-
-                            <h:outputText value="Apellido:" />
-                            <h:outputText value="#{usuario.apellidoUsuario}" style="font-weight: bold"/>
-                        </h:panelGrid>
+                        <h:outputText value="Buscar en cualquier campo:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Ingrese el valor"/>
                     </p:outputPanel>
-                    <h:commandButton action="#{userBean.addAmigo(usuario.idUsuario)}" value="Agregar"/>
-                </h:panelGrid>
-            </p:dataScroller>
+                </f:facet>
+                <p:column filterBy="#{usuario.apellidoUsuario}" headerText="Apellido" footerText="Apellido" filterMatchMode="contains" style="display: none"/>
+                <p:column filterBy="#{usuario.nombreUsuario}" headerText="Nombre" footerText="Nombre" filterMatchMode="contains" filterStyle="display:none" style="display: none"/>
+                <p:column filterBy="#{usuario.autenticacion.correo}" headerText="Correo" footerText="Correo" filterMatchMode="contains" filterStyle="display:none" style="display: none"/>
+                <p:column headerText="#{loginBean.user.usrAlias}" footerText="Usuarios" style="width:80%; vertical-align: middle;">
+                    <h:panelGrid columns="2" cellpadding="5" style="border: none" columnClasses="firstColumn,secondColumn">
+                        
+                        <h:outputText value="Alias:" />
+                        <h:outputText value="#{usuario.aliasUsuario}" style="font-weight: bold"/>
+
+                        <h:outputText value="Nombre:" />
+                        <h:outputText value="#{usuario.nombreUsuario}" style="font-weight: bold"/>
+
+                        <h:outputText value="Apellido:" />
+                        <h:outputText value="#{usuario.apellidoUsuario}" style="font-weight: bold"/>
+                        
+                        <h:outputText value="Correo:" />
+                        <h:outputText value="#{usuario.autenticacion.correo}" style="font-weight: bold"/>
+                    </h:panelGrid>
+                </p:column>
+                <p:column  headerText="" footerText="" style="width:20%; vertical-align: middle;">
+                    <p:commandButton action="#{userBean.addFriend(usuario.idUsuario)}" value="Agregar"/>
+                    <br/>
+                    <br/>
+                    <p:commandButton value="Ver"/>
+                </p:column>
+            </p:dataTable>
         </h:form>
     </body>
 </html>

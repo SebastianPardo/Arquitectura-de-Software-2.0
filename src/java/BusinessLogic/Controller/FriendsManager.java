@@ -26,7 +26,7 @@ public class FriendsManager {
         
         for (Amigos someFriend : friendsList) {
             Usuario aFriend = someFriend.getAmigo();
-            usrFriends.add(new UserView(aFriend.getIdUsuario(), aFriend.getAutenticacion().getCorreo(), aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
+            usrFriends.add(new UserView(aFriend));
         }
         
         return usrFriends;
@@ -38,7 +38,7 @@ public class FriendsManager {
         
         for (Amigos someFriend : friendsList) {            
             Usuario aFriend = someFriend.getAmigo();
-            usrFriends.add(new UserView(aFriend.getIdUsuario(), aFriend.getAutenticacion().getCorreo(), aFriend.getAliasUsuario(), aFriend.getNombreUsuario(), aFriend.getApellidoUsuario()));
+            usrFriends.add(new UserView(aFriend));
         }
         
         return usrFriends;

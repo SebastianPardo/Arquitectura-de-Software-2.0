@@ -16,7 +16,8 @@ and open the template in the editor.
             <h:outputText value="Bienvenido"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGrid columns="2" style="vertical-align: center;">
+
+            <h:panelGrid columns="2">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText value="Alias:" />
                     <h:outputText value="#{loginBean.user.usrAlias}" style="font-weight: bold"/>
@@ -32,13 +33,20 @@ and open the template in the editor.
                 </h:panelGrid>
                 <h:commandButton action="editUser" value="Editar datos" style="margin-left: auto; margin-right: auto;"/>
             </h:panelGrid>
+
             
-            <p:dataScroller value="#{loginBean.user.usrFriends}" var="amigo" chunkSize="10">
+            <p:dataScroller value="#{loginBean.user.usrFriends}" var="amigo" chunkSize="5" mode="inline" scrollHeight="200">
                 <f:facet name="header">
-                    Amigos
+                    <p:outputPanel>
+                        <h:outputText value="Filtrar datos:  " />
+                        <p:inputText id="globalFilter" style="width:150px" placeholder="palabra" binding="#{loginBean.user.friendsFilter}" />
+                        <p:commandButton id="filtrar" action="#{loginBean.user.filterFriends()}" value="Filtrar">
+                            <p:ajax oncomplete="cleanScroller()"/>
+                        </p:commandButton>
+                    </p:outputPanel>
                 </f:facet>
 
-                <h:panelGrid columns="1" style="width:100%" columnClasses="detail">
+                <h:panelGrid columns="2" style="width:100%">
                     <p:outputPanel>
                         <h:panelGrid columns="2" cellpadding="5">
                             <h:outputText value="Alias:" />
@@ -49,18 +57,43 @@ and open the template in the editor.
 
                             <h:outputText value="Apellido:" />
                             <h:outputText value="#{amigo.usrLastName}" style="font-weight: bold"/>
-                            
-                            
+
+
                             <h:outputText value="Correo:" />
                             <h:outputText value="#{amigo.usrMail}" style="font-weight: bold"/>
                         </h:panelGrid>
                     </p:outputPanel>
-                    
+
                 </h:panelGrid>
             </p:dataScroller>
-            
 
-            
+            <p:dataScroller value="#{loginBean.user.usrSuggestedFriends}" var="amigoSugerido" chunkSize="5" mode="inline" scrollHeight="150" >
+                <f:facet name="header">
+                    Recomendaciones
+                </f:facet>
+
+                <h:panelGrid columns="1" style="width:100%">
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Alias:" />
+                            <h:outputText value="#{amigoSugerido.usrAlias}" style="font-weight: bold"/>
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{amigoSugerido.usrName}" style="font-weight: bold"/>
+
+                            <h:outputText value="Apellido:" />
+                            <h:outputText value="#{amigoSugerido.usrLastName}" style="font-weight: bold"/>
+
+                            <h:outputText value="Correo:" />
+                            <h:outputText value="#{amigoSugerido.usrMail}" style="font-weight: bold"/>
+                        </h:panelGrid>
+                    </p:outputPanel>
+
+                </h:panelGrid>
+            </p:dataScroller>
+
+
+
         </ui:define>
     </ui:composition>
 
