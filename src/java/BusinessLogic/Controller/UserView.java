@@ -21,7 +21,7 @@ public class UserView implements Serializable{
     }
     
     public UserView(DataAccess.Entity.Usuario usrData){
-        this.usrData = usrData;
+        this.usrData = usrData;        
     }
         
     public Integer getUsrId(){
@@ -117,17 +117,17 @@ public class UserView implements Serializable{
     }
     
     public java.util.ArrayList<UserView> getUsrSuggestedFriends(){
-        if(usrFriends == null){
+        if(usrSuggFriends == null){
             if(usrData != null){
-                usrFriends = AppController.getInstance().loadSugestedFriendsFrom(usrData.getIdUsuario());
+                usrSuggFriends = AppController.getInstance().loadSugestedFriendsFrom(usrData.getIdUsuario());
             }else{
-                usrFriends = new ArrayList<>();
+                usrSuggFriends = new ArrayList<>();
             }
         }
 
-        return usrFriends;
+        return usrSuggFriends;
     }
-
+     
     public void setUsrFriends(ArrayList<UserView> someFriends) {
         if (usrFriends == null) {
             usrFriends = someFriends;
@@ -166,6 +166,7 @@ public class UserView implements Serializable{
     private boolean editable = false;
     private DataAccess.Entity.Usuario usrData;
     private java.util.ArrayList<UserView> usrFriends;
+    private java.util.ArrayList<UserView> usrSuggFriends;
     private java.util.ArrayList<UserView> usrFriendsFilter;
     private java.util.ArrayList<UserView> usrSuggestedFriendsFilter;
     

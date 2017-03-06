@@ -50,10 +50,7 @@ public class LoginBean implements Serializable{
     public void setMessage(String message) {
         this.message = message;
     }
-    /*
-     * En este método sólo verificamos si el usuario se conectó de forma exitosa.
-     * El atributo usrId está en -1 sólo si no se han conectado.
-     */
+    
     public boolean isOnline(){
         return (usrId > UserManager.noUsrId);
     }

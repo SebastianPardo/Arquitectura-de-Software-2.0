@@ -17,10 +17,11 @@ public class AppController{
         pflManager = new ProfileManager();
     }
     
-    public static AppController getInstance(){
-        if(appController == null)
-            appController = new AppController();
-        return appController;
+    public static AppController getInstance(){        
+        if(instance == null){
+            instance = new AppController();
+        }        
+        return instance;
     }
     
     public Integer login(String mail, String pass){
@@ -54,7 +55,21 @@ public class AppController{
     
     
     private static AppController appController;
+    public boolean addFriend(Integer usrId, Integer frdId) {
+        return frdManager.sendFriendRequest(usrId, frdId);
+    }
+    
+    public boolean deleteFriend(Integer usrId, Integer frdId) {
+        return frdManager.deleteFriend(usrId, frdId);
+    }
+    
+    public boolean blockFriend(Integer usrId, Integer frdId) {
+        return frdManager.blockUser(usrId, frdId);
+    }
+        
     private UserManager usrManager;
     private FriendsManager frdManager;
     private ProfileManager pflManager;
+    
+    private static AppController instance;
 }
