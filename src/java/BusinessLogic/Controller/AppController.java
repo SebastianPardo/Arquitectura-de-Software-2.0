@@ -49,16 +49,16 @@ public class AppController{
         return usrManager;
     }
     
-    public void addFriend(Integer usrId, Integer frdId) {
-        frdManager.sendFriendRequest(usrId, frdId);
+    public boolean addFriend(Integer usrId, Integer frdId) {
+        return frdManager.sendFriendRequest(usrId, frdId);
     }
     
-    public void deleteFriend(Integer usrId, Integer frdId) {
-        frdManager.deleteFriend(usrId, frdId);
+    public boolean deleteFriend(Integer usrId, Integer frdId) {
+        return frdManager.deleteFriend(usrId, frdId);
     }
     
-    public void blockFriend(Integer usrId, Integer frdId) {
-        frdManager.blockUser(usrId, frdId);
+    public boolean blockFriend(Integer usrId, Integer frdId) {
+        return frdManager.blockUser(usrId, frdId);
     }
         
     private UserManager usrManager;
