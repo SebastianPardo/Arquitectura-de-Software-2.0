@@ -83,7 +83,7 @@ label {
   cursor: pointer;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin-top: 100px;
+  margin-top: 30px;
 }
 a {
     color: #3c8dbc;
@@ -132,6 +132,10 @@ h3{
     border-top-color: #3c8dbc;
     
 }
+.left.box-secundary {
+    border-top-color: #ddd;
+    background: #ddd;
+}
 .left {
     position: relative;
     border-radius: 3px;
@@ -141,8 +145,24 @@ h3{
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+    padding: 10px;
+}
+.amigos {
+    float: left;
+    width: 214px;
+    height: 450px;
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #d2d6de;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
     padding: 10px;
 }
 button, meter, progress {
