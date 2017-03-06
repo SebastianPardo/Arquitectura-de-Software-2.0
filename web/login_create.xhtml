@@ -54,9 +54,7 @@
                         <h:outputLabel value="Fecha nacimiento:" for="fechaNacimientoUsuario" />
 
                         <p:calendar id="popup" value="#{createUserBean.fechaNacimientoUsuario}" required="true" requiredMessage="La fecha es obligatoria" pattern="dd-MM-yyyy" yearRange="c-80:c+0" navigator="true"/>
-                        <!--<h:inputText id="fechaNacimientoUsuario" value="#{createUserBean.fechaNacimientoUsuario}" required="true" requiredMessage="La fecha es obligatoria">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:inputText>-->
+                        
                     </h:panelGrid>
                     <br />
                     <h:commandButton action="#{createUserBean.createUser}" value="Crear" onclick="#{createUserBean.setHide(false)}"/>

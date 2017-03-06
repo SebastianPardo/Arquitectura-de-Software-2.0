@@ -105,7 +105,7 @@ public class UserView {
     public java.util.ArrayList<UserView> getUsrFriends(){
         if(usrFriends == null){
             if(usrData != null){
-                usrFriends = AppController.create().loadFriendsFrom(usrData.getIdUsuario());
+                usrFriends = AppController.getInstance().loadFriendsFrom(usrData.getIdUsuario());
             }else{
                 usrFriends = new ArrayList<>();
             }          
@@ -117,7 +117,7 @@ public class UserView {
     public java.util.ArrayList<UserView> getUsrSuggestedFriends(){
         if(usrFriends == null){
             if(usrData != null){
-                usrFriends = AppController.create().loadSugestedFriendsFrom(usrData.getIdUsuario());
+                usrFriends = AppController.getInstance().loadSugestedFriendsFrom(usrData.getIdUsuario());
             }else{
                 usrFriends = new ArrayList<>();
             }
@@ -130,10 +130,28 @@ public class UserView {
         if (usrFriends == null) {
             usrFriends = someFriends;
         }
-    }    
+    }
+
+    public ArrayList<UserView> getUsrFriendsFilter() {
+        return usrFriendsFilter;
+    }
+
+    public void setUsrFriendsFilter(ArrayList<UserView> usrFriendsFilter) {
+        this.usrFriendsFilter = usrFriendsFilter;
+    }
+    
+    public ArrayList<UserView> getUsrSuggestedFriendsFilter() {
+        return usrSuggestedFriendsFilter;
+    }
+
+    public void setUsrSuggestedFriendsFilter(ArrayList<UserView> usrFriendsFilter) {
+        this.usrSuggestedFriendsFilter = usrFriendsFilter;
+    }
     
     private DataAccess.Entity.Usuario usrData;
     private java.util.ArrayList<UserView> usrFriends;
+    private java.util.ArrayList<UserView> usrFriendsFilter;
+    private java.util.ArrayList<UserView> usrSuggestedFriendsFilter;
     
     public static final Integer noUsrId = -1;
     public static final String emptyString = "";

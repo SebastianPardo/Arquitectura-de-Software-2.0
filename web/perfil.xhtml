@@ -31,69 +31,90 @@ and open the template in the editor.
                     <h:outputText value="Correo" />
                     <h:outputText value="#{loginBean.user.usrMail}" style="font-weight: bold"/>
                 </h:panelGrid>
+                <br/>
                 <h:commandButton action="editUser" value="Editar datos" style="margin-left: auto; margin-right: auto;"/>
             </h:panelGrid>
 
-            
-            <p:dataScroller value="#{loginBean.user.usrFriends}" var="amigo" chunkSize="5" mode="inline" scrollHeight="200">
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText value="Filtrar datos:  " />
-                        <p:inputText id="globalFilter" style="width:150px" placeholder="palabra" binding="#{loginBean.user.friendsFilter}" />
-                        <p:commandButton id="filtrar" action="#{loginBean.user.filterFriends()}" value="Filtrar">
-                            <p:ajax oncomplete="cleanScroller()"/>
-                        </p:commandButton>
-                    </p:outputPanel>
-                </f:facet>
+            <h:form style="heigt: 500px">
 
-                <h:panelGrid columns="2" style="width:100%">
-                    <p:outputPanel>
-                        <h:panelGrid columns="2" cellpadding="5">
+                <p:dataTable var="usuario" value="#{loginBean.user.usrFriends}" widgetVar="friendsTable"
+                             emptyMessage="No se encontraron usuarios" filteredValue="#{loginBean.user.usrFriendsFilter}" stickyHeader="true" scrollable="true" scrollHeight="400" scrollWidth="auto">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Buscar en cualquier campo:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('friendsTable').filter()" style="width:150px" placeholder="Ingrese el valor"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column headerText="Amigos" footerText="Amigos" style="width:80%; vertical-align: middle;">
+                        <h:panelGrid columns="2" cellpadding="5" style="border: none" columnClasses="firstColumn,secondColumn">
+
                             <h:outputText value="Alias:" />
-                            <h:outputText value="#{amigo.usrAlias}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrAlias}" style="font-weight: bold"/>
 
                             <h:outputText value="Nombre:" />
-                            <h:outputText value="#{amigo.usrName}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrName}" style="font-weight: bold"/>
 
                             <h:outputText value="Apellido:" />
-                            <h:outputText value="#{amigo.usrLastName}" style="font-weight: bold"/>
-
+                            <h:outputText value="#{usuario.usrLastName}" style="font-weight: bold"/>
 
                             <h:outputText value="Correo:" />
-                            <h:outputText value="#{amigo.usrMail}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrMail}" style="font-weight: bold"/>
                         </h:panelGrid>
-                    </p:outputPanel>
+                    </p:column>
+                    <p:column  headerText="" footerText="" style="width:20%; vertical-align: middle;">
+                        <p:commandButton action="#{userBean.addFriend(usuario.idUsuario)}" value="Eliminar"/>
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Ver"/>
+                    </p:column>
+                    <p:column filterBy="#{usuario.usrLastName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrMail}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    
+                </p:dataTable>
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <h:form style="heigt: 500px">
 
-                </h:panelGrid>
-            </p:dataScroller>
+                <p:dataTable var="usuario" value="#{loginBean.user.usrSuggestedFriends}" widgetVar="friendsSuggestedTable"
+                             emptyMessage="No se encontraron usuarios" filteredValue="#{loginBean.user.usrSuggestedFriendsFilter}" stickyHeader="true" scrollable="true" scrollHeight="400" scrollWidth="auto">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Buscar en cualquier campo:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('friendsSuggestedTable').filter()" style="width:150px" placeholder="Ingrese el valor"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column headerText="Recomendados" footerText="Recomendados" style="width:80%; vertical-align: middle;">
+                        <h:panelGrid columns="2" cellpadding="5" style="border: none" columnClasses="firstColumn,secondColumn">
 
-            <p:dataScroller value="#{loginBean.user.usrSuggestedFriends}" var="amigoSugerido" chunkSize="5" mode="inline" scrollHeight="150" >
-                <f:facet name="header">
-                    Recomendaciones
-                </f:facet>
-
-                <h:panelGrid columns="1" style="width:100%">
-                    <p:outputPanel>
-                        <h:panelGrid columns="2" cellpadding="5">
                             <h:outputText value="Alias:" />
-                            <h:outputText value="#{amigoSugerido.usrAlias}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrAlias}" style="font-weight: bold"/>
 
                             <h:outputText value="Nombre:" />
-                            <h:outputText value="#{amigoSugerido.usrName}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrName}" style="font-weight: bold"/>
 
                             <h:outputText value="Apellido:" />
-                            <h:outputText value="#{amigoSugerido.usrLastName}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrLastName}" style="font-weight: bold"/>
 
                             <h:outputText value="Correo:" />
-                            <h:outputText value="#{amigoSugerido.usrMail}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrMail}" style="font-weight: bold"/>
                         </h:panelGrid>
-                    </p:outputPanel>
-
-                </h:panelGrid>
-            </p:dataScroller>
-
-
-
+                    </p:column>
+                    <p:column  headerText="" footerText="" style="width:20%; vertical-align: middle;">
+                        <p:commandButton action="#{userBean.addFriend(usuario.idUsuario)}" value="Agregar"/>
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Ver"/>
+                    </p:column>
+                    <p:column filterBy="#{usuario.usrLastName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrMail}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    
+                </p:dataTable>
+            </h:form>
         </ui:define>
     </ui:composition>
 

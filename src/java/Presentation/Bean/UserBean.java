@@ -5,6 +5,7 @@
  */
 package Presentation.Bean;
 
+import BusinessLogic.Controller.AppController;
 import BusinessLogic.Controller.FriendsManager;
 import BusinessLogic.Controller.UserManager;
 import DataAccess.Entity.Usuario;
@@ -35,21 +36,15 @@ public class UserBean implements Serializable {
     public void setLogin(LoginBean login) {
         this.login = login;
     }
-
-    public ArrayList<Usuario> getUsuarios() {
-        if (usuarios == null) {
-            usuarios = new ArrayList<>((new UserManager()).usuarios());
-            usuarios.sort((Usuario user1, Usuario user2) -> 
-                    user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
-        }
-        return usuarios;
-    }
-    
     
     public void addFriend(int id){
         if ((new FriendsManager()).sendFriendRequest(login.getUser().getUsrId(), id)){
         }else{
         }
+    }
+    
+    public AppController getAppController(){
+        return AppController.getInstance();
     }
     
     
@@ -58,6 +53,4 @@ public class UserBean implements Serializable {
     
     @ManagedProperty("#{login}")
     private LoginBean login;
-
-    private ArrayList<Usuario> usuarios;
 }

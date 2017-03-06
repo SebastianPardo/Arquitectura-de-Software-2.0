@@ -8,6 +8,7 @@ package Presentation.Bean;
 import BusinessLogic.Controller.AppController;
 import BusinessLogic.Controller.UserManager;
 import BusinessLogic.Controller.UserView;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -17,7 +18,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class LoginBean {
+public class LoginBean implements Serializable{
     
     public LoginBean(){        
         usrId = UserManager.noUsrId;
@@ -56,7 +57,7 @@ public class LoginBean {
     }
     
     public String login(){
-        Integer someId = AppController.create().login(correo, pass);       
+        Integer someId = AppController.getInstance().login(correo, pass);       
         if(someId > UserManager.noUsrId){                        
             usrId = someId;
             loadUserData();
@@ -76,7 +77,7 @@ public class LoginBean {
         boolean value = false;
         
         if(isOnline()){
-            usrView = AppController.create().loadUser(usrId);
+            usrView = AppController.getInstance().loadUser(usrId);
             usrView.setUsrMail(correo);            
         }
         

@@ -96,3 +96,6 @@ border-color: white;
        width: 300px;
   }
 
+  .ui-datatable table col {
+      width: auto;
+  }

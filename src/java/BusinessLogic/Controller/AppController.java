@@ -17,8 +17,10 @@ public class AppController{
         pflManager = new ProfileManager();
     }
     
-    public static AppController create(){
-        return new AppController();
+    public static AppController getInstance(){
+        if(appController == null)
+            appController = new AppController();
+        return appController;
     }
     
     public Integer login(String mail, String pass){
@@ -33,6 +35,7 @@ public class AppController{
         return usrManager.loadAllUsers();
     }
     
+    
     public java.util.ArrayList<UserView> loadFriendsFrom(Integer usrId){
         return frdManager.getFriendsFrom(usrId);
     }
@@ -41,6 +44,11 @@ public class AppController{
         return frdManager.getSuggestedFriendsFrom(usrId);
     }
     
+    public UserManager getUserManager(){
+        return usrManager;
+    }
+    
+    private static AppController appController;
     private UserManager usrManager;
     private FriendsManager frdManager;
     private ProfileManager pflManager;

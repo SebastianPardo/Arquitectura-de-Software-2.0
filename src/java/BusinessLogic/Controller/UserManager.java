@@ -25,10 +25,6 @@ public class UserManager {
     
     }
     
-    public List<Usuario> usuarios(){
-        UserDAO usuarioDAO = new UserDAO();
-        return usuarioDAO.findAll();
-    }
     
     public Integer login(String mail, String pass){
         Integer usrId = noUsrId;
@@ -104,12 +100,21 @@ public class UserManager {
     
     public ArrayList<Usuario> getUsuarios() {
         if (usuarios == null) {
-            usuarios = new ArrayList<>((new UserManager()).usuarios());
+            usuarios = new ArrayList<>((new UserDAO().findAll()));
             usuarios.sort((Usuario user1, Usuario user2) -> 
                     user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
         }
         return usuarios;
     }
+    
+     public ArrayList<Usuario> getUsuariosFiltrados() {
+        return usuariosFiltrados;
+    }
+
+    public void setUsuariosFiltrados(ArrayList<Usuario> usuariosFiltrados) {
+        this.usuariosFiltrados = usuariosFiltrados;
+    }
+    
     
     public ArrayList<UserView> getSuggestedFrom(Integer usrId){
         List<Usuario> sFriends = (new FriendsDAO()).getSugestedFriendsFrom(usrId);
@@ -124,5 +129,6 @@ public class UserManager {
     }
     
     private ArrayList<Usuario> usuarios;
+    private ArrayList<Usuario> usuariosFiltrados;
     public static Integer noUsrId = -1;
 }
