@@ -29,6 +29,10 @@ public class AppController{
         return usrManager.loadUser(usrId);
     }
     
+    public java.util.ArrayList<UserView> loadAllUsers(){
+        return usrManager.loadAllUsers();
+    }
+    
     public java.util.ArrayList<UserView> loadFriendsFrom(Integer usrId){
         return frdManager.getFriendsFrom(usrId);
     }

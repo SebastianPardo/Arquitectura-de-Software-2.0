@@ -85,10 +85,18 @@ public class UserManager {
         Usuario usr = usrDAO.searchById(usrId);
         
         if(usr != null){        
-            value.setUsrId(usr.getIdUsuario());            
-            value.setUsrAlias(usr.getAliasUsuario());
-            value.setUsrName(usr.getNombreUsuario());
-            value.setUsrLastName(usr.getApellidoUsuario());
+            value = new UserView(usr);
+        }
+        
+        return value;
+    }
+    
+    public java.util.ArrayList<UserView> loadAllUsers(){        
+        java.util.ArrayList<UserView> value = new java.util.ArrayList<>();
+        java.util.ArrayList<Usuario> usrs = this.getUsuarios();
+        
+        for(Usuario aUsr: usrs){
+            value.add(new UserView(aUsr));
         }
         
         return value;
@@ -108,7 +116,7 @@ public class UserManager {
         ArrayList<UserView> suggested = new ArrayList<>();
         
         for(Usuario aUser : sFriends){
-            UserView value = new UserView(aUser.getIdUsuario(), aUser.getAutenticacion().getCorreo(), aUser.getAliasUsuario(), aUser.getNombreUsuario(), aUser.getApellidoUsuario());
+            UserView value = new UserView(aUser);
             suggested.add(value);
         }
         
