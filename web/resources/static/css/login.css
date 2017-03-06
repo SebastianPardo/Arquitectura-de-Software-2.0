@@ -24,17 +24,17 @@ body {
   margin-right: auto;
   margin-left: auto;
   border: 12px solid transparent;
-  border-bottom-color: #101010;
+  border-bottom-color: royalblue;
 }
 
 .login-header {
-  background: #101010;
+  background: royalblue;
   padding: 20px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
   text-transform: uppercase;
-  color: #9d9d9d;
+  color: #fff;
 }
 
 .login-container {
@@ -73,15 +73,15 @@ body {
 }
 
 .login input[type="submit"] {
-  background: #101010;
+  background: royalblue;
   border-color: transparent;
-  color: #9d9d9d;
+  color: #fff;
   cursor: pointer;
 }
 
 .login input[type="submit"]:hover {
   background: #9d9d9d;
-  color: #000;
+  color: #fff;
 }
 
 /* Buttons' focus effect */
