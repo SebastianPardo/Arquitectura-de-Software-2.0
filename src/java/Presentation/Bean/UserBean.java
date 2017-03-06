@@ -24,11 +24,13 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 public class UserBean implements Serializable {
-    
-    public UserBean(){
-        
+
+    private static final long serialVersionUID = 1328414043287985722L;
+
+    public UserBean() {
+
     }
-    
+
     public LoginBean getLogin() {
         return login;
     }
@@ -36,21 +38,38 @@ public class UserBean implements Serializable {
     public void setLogin(LoginBean login) {
         this.login = login;
     }
-    
-    public void addFriend(int id){
-        if ((new FriendsManager()).sendFriendRequest(login.getUser().getUsrId(), id)){
-        }else{
+
+    public void addFriend(int id, Integer idFriend) {
+        if ((new FriendsManager()).sendFriendRequest(id, idFriend)) {
+            setMensaje("Solicitud enviada");
+        } else {
+            setMensaje("Ya tienes a este usuario añadido");
         }
     }
-    
-    public AppController getAppController(){
+
+    public AppController getAppController() {
         return AppController.getInstance();
     }
-    
-    
-    public void deleteFriend(String id){
+
+    public void deleteFriend(Integer id,Integer idFriend) {
+        if (AppController.getInstance().getFriendsManager().deleteFriend(id, idFriend)) {
+            setMensaje("Usuario eliminado");
+        } else {
+            setMensaje("El usuario no ha sido eliminado");
+        }
     }
-    
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Estado",mensaje) );
+        this.mensaje = mensaje;
+    }
+
     @ManagedProperty("#{login}")
     private LoginBean login;
+    private String mensaje;
 }

@@ -128,6 +128,10 @@ public class UserManager {
         return suggested;
     }
     
+    public void saveUser(Usuario user){
+        (new UserDAO()).edit(user);
+    }
+    
     private ArrayList<Usuario> usuarios;
     private ArrayList<Usuario> usuariosFiltrados;
     public static Integer noUsrId = -1;

@@ -48,6 +48,11 @@ public class AppController{
         return usrManager;
     }
     
+    public FriendsManager getFriendsManager(){
+        return frdManager;
+    }
+    
+    
     private static AppController appController;
     private UserManager usrManager;
     private FriendsManager frdManager;

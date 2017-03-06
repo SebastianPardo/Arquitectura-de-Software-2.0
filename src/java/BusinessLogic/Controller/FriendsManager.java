@@ -43,8 +43,6 @@ public class FriendsManager {
     }    
     
     public boolean sendFriendRequest(Integer usrId, Integer frdId){
-        boolean value = false;
-        
         java.util.List<Amigos> friendsList = (new FriendsDAO()).getFriendsFrom(usrId);
         
         Amigos friends = new Amigos(new AmigosPK(usrId,frdId), FriendsDAO.Friends);
@@ -52,10 +50,10 @@ public class FriendsManager {
         Amigos blocked = new Amigos(new AmigosPK(usrId,frdId), FriendsDAO.Blocked);
         
         if(!friendsList.contains(friends) && !friendsList.contains(pending) && !friendsList.contains(blocked)){
-            value = (new FriendsDAO()).persist(pending);
+            return (new FriendsDAO()).persist(pending);
         }
         
-        return value;
+        return false;
     }
     
     public boolean answerFriendRequest(Integer usrId, Integer senderId, boolean didAccept){
@@ -81,10 +79,9 @@ public class FriendsManager {
     }
     
     public boolean deleteFriend(Integer usrId, Integer frdId){        
-        Amigos friends = new Amigos(new AmigosPK(usrId, frdId), FriendsDAO.Friends);
-        
-        boolean value = (new FriendsDAO()).remove(friends);
-        
-        return value;   
+        Amigos friends1 = new Amigos(new AmigosPK(usrId, frdId), FriendsDAO.Friends);
+        Amigos friends2 = new Amigos(new AmigosPK(frdId, usrId), FriendsDAO.Friends);
+        FriendsDAO dao = new FriendsDAO();
+        return dao.remove(friends1) && dao.remove(friends2);   
     }
 }

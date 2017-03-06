@@ -15,11 +15,11 @@
                 <h:form>
                     <h:panelGrid columns="3">
                         <h:outputLabel value="Correo:" for="mailUser" />
-                        <h:inputText id="correoUsuario" value="#{loginBean.correo}" required="true" requiredMessage="El correo es obligatorio"/>
+                        <h:inputText id="mailUser" value="#{loginBean.correo}" required="true" requiredMessage="El correo es obligatorio"/>
                         <h:message for="correoUsuario" errorStyle="color: red"/>
                         <h:outputLabel value="Contraseña:" for="passUser" />
-                        <p:password id="passUsuario" value="#{loginBean.pass}" required="true" requiredMessage="La contraseña es obligatoria"/>
-                        <h:message for="passUsuario" errorStyle="color: red"/>
+                        <p:password id="passUser" value="#{loginBean.pass}" required="true" requiredMessage="La contraseña es obligatoria"/>
+                        <h:message for="passUser" errorStyle="color: red"/>
                     </h:panelGrid>
                     <br />
                     <h:commandButton action="#{loginBean.login}" value="Entrar" />
@@ -33,14 +33,14 @@
                 </h:panelGroup>
                 <h:form id="crearUsuario">
                     <h:panelGrid columns="2">
-                        <h:outputLabel value="Correo:" for="aliasUsuario" />
+                        <h:outputLabel value="Correo:" for="correoUsuario" />
                         <h:inputText id="correoUsuario" value="#{createUserBean.correo}" required="true" requiredMessage="El correo es obligatorio" validatorMessage="El correo no es valido">
                             <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                         </h:inputText>
                         <h:outputLabel for="password1" value="Contraseña 1:"/>
-                        <p:password id="pass1" value="#{createUserBean.pass}" match="pass2" label="Contraseña 1" required="true" validatorMessage="Las contraseñas no coinciden" requiredMessage="Contraseña requerida"/>
+                        <p:password id="password1" value="#{createUserBean.pass}" match="password2" label="Contraseña 1" required="true" validatorMessage="Las contraseñas no coinciden" requiredMessage="Contraseña requerida"/>
                         <h:outputLabel for="password2" value="Contraseña 2:" />
-                        <p:password id="pass2" value="#{createUserBean.pass}" label="Contraseña 2" required="true" requiredMessage="Repeticion de contraseña requerida"/>
+                        <p:password id="password2" value="#{createUserBean.pass}" label="Contraseña 2" required="true" requiredMessage="Repeticion de contraseña requerida"/>
                         <h:outputLabel value="Alias" for="nombreUsuario" />
                         <h:inputText id="aliasUsuario" value="#{createUserBean.aliasUsuario}" required="false"/>
                         <h:outputLabel value="Nombre:" for="nombreUsuario" />
@@ -53,7 +53,7 @@
                         <h:inputText id="telefonoUsuario" value="#{createUserBean.telefonoUsuario}" required="true" requiredMessage="El teléfono es obligatorio"/>
                         <h:outputLabel value="Fecha nacimiento:" for="fechaNacimientoUsuario" />
 
-                        <p:calendar id="popup" value="#{createUserBean.fechaNacimientoUsuario}" required="true" requiredMessage="La fecha es obligatoria" pattern="dd-MM-yyyy" yearRange="c-80:c+0" navigator="true"/>
+                        <p:calendar id="fechaNacimientoUsuario" value="#{createUserBean.fechaNacimientoUsuario}" required="true" requiredMessage="La fecha es obligatoria" pattern="dd-MM-yyyy" yearRange="c-80:c+0" navigator="true"/>
                         
                     </h:panelGrid>
                     <br />

@@ -19,6 +19,8 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable{
+
+    private static final long serialVersionUID = -3476703846699958985L;
     
     public LoginBean(){        
         usrId = UserManager.noUsrId;
@@ -77,8 +79,7 @@ public class LoginBean implements Serializable{
         boolean value = false;
         
         if(isOnline()){
-            usrView = AppController.getInstance().loadUser(usrId);
-            usrView.setUsrMail(correo);            
+            usrView = AppController.getInstance().loadUser(usrId);       
         }
         
         return value;
@@ -88,11 +89,23 @@ public class LoginBean implements Serializable{
         return usrView;
     }
     
+    public String visit(Integer id){
+        usrVisit = AppController.getInstance().loadUser(id);
+        return "perfil_user";
+    }
     
+    public UserView getUserVisit(){
+        return usrVisit;
+    }
+    
+    public void save(){
+        usrView.saveEdit();
+    }
     
     private String pass;
     private String correo;
     private String message;       
     private Integer usrId;
     private UserView usrView;
+    private UserView usrVisit;
 }

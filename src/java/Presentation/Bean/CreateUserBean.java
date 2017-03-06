@@ -9,15 +9,18 @@ package Presentation.Bean;
  *
  * @author arqsoft2017i
  */
-import BusinessLogic.Controller.Encryp;
+import BusinessLogic.Controller.AppController;
 import BusinessLogic.Controller.UserManager;
+import java.io.Serializable;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 @ManagedBean
 @ViewScoped
-public class CreateUserBean {
+public class CreateUserBean implements Serializable{
+
+    private static final long serialVersionUID = -8255062366708463640L;
 
     private String nombreUsuario;
     private String apellidoUsuario;
@@ -111,11 +114,10 @@ public class CreateUserBean {
     }
 
     public void createUser() {
-        UserManager createUser = new UserManager();
   //      if(correo != null){
 //            pass = Encryp.encrypt(pass, correo);
         //}
-        message = createUser.createUser(nombreUsuario,
+        message = AppController.getInstance().getUserManager().createUser(nombreUsuario,
                 apellidoUsuario, aliasUsuario, sexoUsuario, telefonoUsuario,
                 true, fechaNacimientoUsuario, pass, correo);
     }

@@ -75,6 +75,7 @@ public class FriendsDAO {
 
         et.begin();
         try {
+            someFriends = em.getReference(Amigos.class, someFriends.getAmigosPK());
             em.remove(someFriends);
             et.commit();
         } catch (Exception e) {

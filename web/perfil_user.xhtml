@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Perfil de #{loginBean.userVisit.usrAlias}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputText value="Alias:" />
+                        <h:outputText value="#{loginBean.userVisit.usrAlias}" style="font-weight: bold" />
+                        <h:outputText value="Nombre:" />
+                        <h:outputText value="#{loginBean.userVisit.usrName}" style="font-weight: bold" />
+
+                        <h:outputText value="Apellido:" />
+                        <h:outputText value="#{loginBean.userVisit.usrLastName}" style="font-weight: bold" />
+                        <h:outputText value="Correo" />
+                        <h:outputText value="#{loginBean.userVisit.usrMail}" style="font-weight: bold"/>
+                    </h:panelGrid>
+                    <br/>                    
+                </h:panelGrid>
+            </h:form>
+
+            <h:form style="height: 500px" id="friendList">
+                <p:growl id="growl" showDetail="true" />
+                <p:dataTable var="usuario" value="#{loginBean.userVisit.usrFriends}" widgetVar="friendsTable"
+                             emptyMessage="No se encontraron usuarios" filteredValue="#{loginBean.userVisit.usrFriendsFilter}" stickyHeader="true" scrollable="true" scrollHeight="400" scrollWidth="auto">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Buscar en cualquier campo:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('friendsTable').filter()" style="width:150px" placeholder="Ingrese el valor"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column headerText="Amigos de #{loginBean.userVisit.usrAlias}" footerText="Amigos" style="width:80%; vertical-align: middle;">
+                        <h:panelGrid columns="2" cellpadding="5" style="border: none" columnClasses="firstColumn,secondColumn">
+
+                            <h:outputText value="Alias:" />
+                            <h:outputText value="#{usuario.usrAlias}" style="font-weight: bold"/>
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{usuario.usrName}" style="font-weight: bold"/>
+
+                            <h:outputText value="Apellido:" />
+                            <h:outputText value="#{usuario.usrLastName}" style="font-weight: bold"/>
+
+                            <h:outputText value="Correo:" />
+                            <h:outputText value="#{usuario.usrMail}" style="font-weight: bold"/>
+                        </h:panelGrid>
+                    </p:column>
+                    <p:column  headerText="" footerText="" style="width:20%; vertical-align: middle;">
+                        <p:commandButton action="#{userBean.addFriend(loginBean.user.usrId, usuario.usrId)}" value="Agregar" update=":friendList:growl"/>
+                        <br/>
+                        
+                    </p:column>
+                    <p:column filterBy="#{usuario.usrLastName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrMail}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+
+                </p:dataTable>
+                <br/>
+                <br/>
+
+                <p:commandButton value="Volver a mi perfil" action="perfil"/>
+                <br/>
+                <br/>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+
+</html>

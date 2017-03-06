@@ -5,14 +5,16 @@
  */
 package BusinessLogic.Controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  *
  * @author arqsoft2017i
  */
-public class UserView {
+public class UserView implements Serializable{
+
+    private static final long serialVersionUID = -2404509611949426055L;
     
     public UserView(){
         this(null);
@@ -147,7 +149,21 @@ public class UserView {
     public void setUsrSuggestedFriendsFilter(ArrayList<UserView> usrFriendsFilter) {
         this.usrSuggestedFriendsFilter = usrFriendsFilter;
     }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean edit) {
+        this.editable = edit;
+    }
     
+    public void saveEdit(){
+        AppController.getInstance().getUserManager().saveUser(usrData);
+        editable=false;
+    }
+    
+    private boolean editable = false;
     private DataAccess.Entity.Usuario usrData;
     private java.util.ArrayList<UserView> usrFriends;
     private java.util.ArrayList<UserView> usrFriendsFilter;
