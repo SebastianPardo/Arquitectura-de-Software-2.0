@@ -33,7 +33,7 @@ public class FriendsManager {
     }
 
     public java.util.ArrayList<UserView> getSuggestedFriendsFrom(Integer usrId){
-        java.util.List<Usuario> friendsList = (new FriendsDAO()).getSugestedFriendsFrom(usrId);
+        java.util.List<Usuario> friendsList = (new FriendsDAO()).getSuggestedFriendsFrom(usrId);
         java.util.ArrayList<UserView> usrFriends = new java.util.ArrayList<>();
         
         for (Usuario someFriend : friendsList) {            

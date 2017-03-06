@@ -17,10 +17,11 @@ public class AppController{
         pflManager = new ProfileManager();
     }
     
-    public static AppController getInstance(){
-        if(appController == null)
-            appController = new AppController();
-        return appController;
+    public static AppController getInstance(){        
+        if(instance == null){
+            instance = new AppController();
+        }        
+        return instance;
     }
     
     public Integer login(String mail, String pass){
@@ -47,9 +48,10 @@ public class AppController{
     public UserManager getUserManager(){
         return usrManager;
     }
-    
-    private static AppController appController;
+        
     private UserManager usrManager;
     private FriendsManager frdManager;
     private ProfileManager pflManager;
+    
+    private static AppController instance;
 }

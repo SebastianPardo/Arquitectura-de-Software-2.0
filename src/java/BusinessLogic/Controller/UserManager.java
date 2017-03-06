@@ -81,7 +81,7 @@ public class UserManager {
         Usuario usr = usrDAO.searchById(usrId);
         
         if(usr != null){        
-            value = new UserView(usr);
+            value = new UserView(usr);            
         }
         
         return value;
@@ -117,7 +117,7 @@ public class UserManager {
     
     
     public ArrayList<UserView> getSuggestedFrom(Integer usrId){
-        List<Usuario> sFriends = (new FriendsDAO()).getSugestedFriendsFrom(usrId);
+        List<Usuario> sFriends = (new FriendsDAO()).getSuggestedFriendsFrom(usrId);
         ArrayList<UserView> suggested = new ArrayList<>();
         
         for(Usuario aUser : sFriends){
