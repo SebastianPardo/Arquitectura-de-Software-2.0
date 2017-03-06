@@ -37,18 +37,16 @@ public class UserBean implements Serializable {
         this.login = login;
     }
     
-    public void addFriend(int id){
-        if ((new FriendsManager()).sendFriendRequest(login.getUser().getUsrId(), id)){
-        }else{
-        }
+    public void addFriend(Integer frdId){
+        AppController.getInstance().addFriend(login.getUser().getUsrId(),frdId);
+    }
+       
+    public void deleteFriend(Integer frdId){
+        AppController.getInstance().deleteFriend(login.getUser().getUsrId(),frdId);
     }
     
-    public AppController getAppController(){
-        return AppController.getInstance();
-    }
-    
-    
-    public void deleteFriend(String id){
+    public void blockFriend(Integer frdId){
+        AppController.getInstance().blockFriend(login.getUser().getUsrId(),frdId);
     }
     
     @ManagedProperty("#{login}")

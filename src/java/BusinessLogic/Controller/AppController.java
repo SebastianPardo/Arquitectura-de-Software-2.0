@@ -48,6 +48,18 @@ public class AppController{
     public UserManager getUserManager(){
         return usrManager;
     }
+    
+    public void addFriend(Integer usrId, Integer frdId) {
+        frdManager.sendFriendRequest(usrId, frdId);
+    }
+    
+    public void deleteFriend(Integer usrId, Integer frdId) {
+        frdManager.deleteFriend(usrId, frdId);
+    }
+    
+    public void blockFriend(Integer usrId, Integer frdId) {
+        frdManager.blockUser(usrId, frdId);
+    }
         
     private UserManager usrManager;
     private FriendsManager frdManager;

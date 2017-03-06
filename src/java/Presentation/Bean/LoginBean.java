@@ -85,8 +85,6 @@ public class LoginBean implements Serializable{
         return usrView;
     }
     
-    
-    
     private String pass;
     private String correo;
     private String message;       
