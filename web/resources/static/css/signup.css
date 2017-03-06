@@ -1,0 +1,93 @@
+body {
+  background: #fff;
+  font-family: 'Open Sans', sans-serif;
+}
+/* WGUPLOAD login page */
+/* logo */
+.logo{
+width: 113px;
+height: 97px;
+background-image: url("images/logo.png");
+position: absolute;
+top: 15%;
+left: 50%;
+margin-right: -50%;
+transform: translate(-50%, -50%)
+}
+/* login-form */
+.login-form {
+border-radius: 8px;
+width: 500px;
+height: 500px;
+margin: 0;
+background: #FFFFFF;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-right: -50%;
+transform: translate(-50%, -50%)
+}
+/* username and password input */
+.form{
+width: 400px;
+height: 35px;
+background-color: #d3d3d3;
+border: 1px #FFFFFF;
+border-radius: 4px;
+text-align: center;
+}
+/* button input */
+.input-button{
+margin-top:50px;
+width: 300px;
+height: 45px;
+font-size:25px;
+color: white;
+border: 1px #FFFFFF;
+border-radius: 7px;
+background-color: #2e77d1;
+}
+/* forgot input */
+.forgot {
+margin-top:25px;
+color:#3e4246;
+text-decoration: none;
+}
+
+/*
+WGUPLOAD signup page
+*/
+
+/* sign-up logo  */
+.signup-logo{
+width: 113px;
+height: 97px;
+background-image: url("images/logo.png");
+position: absolute;
+top: 12%;
+left: 50%;
+margin-right: -50%;
+transform: translate(-50%, -50%)
+}
+/* sign-up form  */
+.singup-form{
+border-radius: 8px;
+width: 500px;
+height: 600px;
+margin: 0;
+background: #FFFFFF;
+position: absolute;
+top: 55%;
+left: 50%;
+margin-right: -50%;
+transform: translate(-50%, -50%)
+}
+/* sign-up input's  */
+.forms{
+width: 400px;
+height: 40px;
+background-color: #d3d3d3;
+border: 1px #FFFFFF;
+border-radius: 4px;
+text-align: center;
+}
