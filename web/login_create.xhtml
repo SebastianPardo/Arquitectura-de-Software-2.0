@@ -11,23 +11,17 @@
             <h:outputText value="Bienvenido"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <p:panel id="login" header="Login" style="margin-bottom:20px">
-                <h:form>
-                    <h:panelGrid columns="3">
-                        <h:outputLabel value="Correo:" for="mailUser" />
-                        <h:inputText id="correoUsuario" value="#{loginBean.correo}" required="true" requiredMessage="El correo es obligatorio"/>
-                        <h:message for="correoUsuario" errorStyle="color: red"/>
-                        <h:outputLabel value="Contraseña:" for="passUser" />
-                        <p:password id="passUsuario" value="#{loginBean.pass}" required="true" requiredMessage="La contraseña es obligatoria"/>
-                        <h:message for="passUsuario" errorStyle="color: red"/>
-                    </h:panelGrid>
-                    <br />
-                    <h:commandButton action="#{loginBean.login}" value="Entrar" />
-                    <br/>
-                    <h:outputText value="#{loginBean.message}"/>
-                </h:form>
-            </p:panel>
+            <div class="login">
+                <div class="login-triangle"></div>
 
+                <h2 class="login-header">BIENVENIDO</h2>
+
+                <form class="login-container">
+                    <p><input type="email" placeholder="Email"/></p>
+                    <p><input type="password" placeholder="Password"/></p>
+                    <p><input type="submit" value="Log in"/></p>
+                </form>
+            </div>
         </ui:define>
     </ui:composition>
 
