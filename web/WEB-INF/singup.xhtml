@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Bienvenido"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <p:panel id="toggleable" header="Crear cuenta" toggleable="true" collapsed="#{createUserBean.hide}" closable="false" toggleSpeed="250" widgetVar="panel" style="margin-bottom:20px">
+                <h:panelGroup id="messagePanel" layout="block" >
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table" />
+                </h:panelGroup>
+                <h:form id="crearUsuario">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Correo:" for="aliasUsuario" />
+                        <h:inputText id="correoUsuario" value="#{createUserBean.correo}" required="true" requiredMessage="El correo es obligatorio" validatorMessage="El correo no es valido">
+                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                        </h:inputText>
+                        <h:outputLabel for="password1" value="Contraseña 1:"/>
+                        <p:password id="pass1" value="#{createUserBean.pass}" match="pass2" label="Contraseña 1" required="true" validatorMessage="Las contraseñas no coinciden" requiredMessage="Contraseña requerida"/>
+                        <h:outputLabel for="password2" value="Contraseña 2:" />
+                        <p:password id="pass2" value="#{createUserBean.pass}" label="Contraseña 2" required="true" requiredMessage="Repeticion de contraseña requerida"/>
+                        <h:outputLabel value="Alias" for="nombreUsuario" />
+                        <h:inputText id="aliasUsuario" value="#{createUserBean.aliasUsuario}" required="false"/>
+                        <h:outputLabel value="Nombre:" for="nombreUsuario" />
+                        <h:inputText id="nombreUsuario" value="#{createUserBean.nombreUsuario}" required="true" requiredMessage="El nombre es obligatorio"/>
+                        <h:outputLabel value="Apellido:" for="apellidoUsuario" />
+                        <h:inputText id="apellidoUsuario" value="#{createUserBean.apellidoUsuario}" required="true" requiredMessage="El apellido es obligatorio"/>
+                        <h:outputLabel value="Género:" for="sexoUsuario" />
+                        <h:inputText id="sexoUsuario" value="#{createUserBean.sexoUsuario}" required="true" requiredMessage="El género es obligatorio"/>
+                        <h:outputLabel value="Teléfono" for="telefonoUsuario" />
+                        <h:inputText id="telefonoUsuario" value="#{createUserBean.telefonoUsuario}" required="true" requiredMessage="El teléfono es obligatorio"/>
+                        <h:outputLabel value="Fecha nacimiento:" for="fechaNacimientoUsuario" />
+
+                        <p:calendar id="popup" value="#{createUserBean.fechaNacimientoUsuario}" required="true" requiredMessage="La fecha es obligatoria" pattern="dd-MM-yyyy" yearRange="c-80:c+0" navigator="true"/>
+                        <!--<h:inputText id="fechaNacimientoUsuario" value="#{createUserBean.fechaNacimientoUsuario}" required="true" requiredMessage="La fecha es obligatoria">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:inputText>-->
+                    </h:panelGrid>
+                    <br />
+                    <h:commandButton action="#{createUserBean.createUser}" value="Crear" onclick="#{createUserBean.setHide(false)}"/>
+                    <br/>
+                    <h:outputText value="#{createUserBean.message}"/>
+                    <br/>
+                    <br/>
+                    <h:link outcome="/index" value="#{bundle.CreateUsuarioIndexLink}" />
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+</html>
