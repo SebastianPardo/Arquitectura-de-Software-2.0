@@ -38,11 +38,19 @@ public class AppController{
     
     
     public java.util.ArrayList<UserView> loadFriendsFrom(Integer usrId){
-        return frdManager.getFriendsFrom(usrId);
+        return frdManager.getFriendsAceptedFrom(usrId);
     }
     
     public java.util.ArrayList<UserView> loadSugestedFriendsFrom(Integer usrId){
         return frdManager.getSuggestedFriendsFrom(usrId);
+    }
+    
+    public java.util.ArrayList<UserView> loadPendingFriendsSendedFrom(Integer usrId){
+        return frdManager.getFriendsPendingSendedFrom(usrId);
+    }
+    
+    public java.util.ArrayList<UserView> loadPendingFriendsReceivedFrom(Integer usrId){
+        return frdManager.getFriendsRequestsFrom(usrId);
     }
     
     public UserManager getUserManager(){
@@ -55,6 +63,7 @@ public class AppController{
     
     
     private static AppController appController;
+    
     public boolean addFriend(Integer usrId, Integer frdId) {
         return frdManager.sendFriendRequest(usrId, frdId);
     }
@@ -65,6 +74,10 @@ public class AppController{
     
     public boolean blockFriend(Integer usrId, Integer frdId) {
         return frdManager.blockUser(usrId, frdId);
+    }
+    
+    public boolean answerFriendRequest(Integer usrId, Integer frdId, boolean didAcept){
+        return frdManager.answerFriendRequest(usrId, frdId, didAcept);
     }
         
     private UserManager usrManager;

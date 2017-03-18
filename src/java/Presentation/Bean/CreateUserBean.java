@@ -13,8 +13,13 @@ import BusinessLogic.Controller.AppController;
 import BusinessLogic.Controller.UserManager;
 import java.io.Serializable;
 import java.util.Date;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 @ManagedBean
 @ViewScoped
@@ -111,6 +116,18 @@ public class CreateUserBean implements Serializable{
     
     public void setHide(boolean hide){
         this.hide = hide;
+    }
+    
+    public void validatePass(FacesContext context, UIComponent component, Object value) {
+        String password = (String) value;
+        UIInput confirmComponent = (UIInput) component.getAttributes().get("confirmPass");
+        String confirm = (String)confirmComponent.getValue();
+        
+        if (password == null || password.isEmpty() || password.length()<6) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de contraseña", "La contraseña debe tener entre 6 y 20 caracteres"));
+        }
+        if(!password.equals(confirm))
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Las contraseñas no coinciden", "Los valores de las contraseñas deben coincidir"));
     }
 
     public void createUser() {

@@ -6,11 +6,7 @@
 package Presentation.Bean;
 
 import BusinessLogic.Controller.AppController;
-import BusinessLogic.Controller.FriendsManager;
-import BusinessLogic.Controller.UserManager;
-import DataAccess.Entity.Usuario;
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -40,24 +36,38 @@ public class UserBean implements Serializable {
     }
 
     public void addFriend(int id, Integer idFriend) {
-        if ((new FriendsManager()).sendFriendRequest(id, idFriend)) {
+        if (getAppController().addFriend(id, idFriend)) {
             setMensaje("Solicitud enviada");
         } else {
             setMensaje("Ya tienes a este usuario añadido");
         }
     }
+    
+    public void answerFriendRequest(Integer id, Integer idFriend, boolean answer){
+        getAppController().answerFriendRequest(id, idFriend, answer);
+    }
+            
 
     public AppController getAppController() {
         return AppController.getInstance();
     }
 
     public void deleteFriend(Integer id,Integer idFriend) {
-        if (AppController.getInstance().getFriendsManager().deleteFriend(id, idFriend)) {
+        if (getAppController().getFriendsManager().deleteFriend(id, idFriend)) {
             setMensaje("Usuario eliminado");
         } else {
             setMensaje("El usuario no ha sido eliminado");
         }
     }
+    
+    public void blockFriend(Integer id,Integer idFriend) {
+        if (getAppController().getFriendsManager().blockUser(id, idFriend)) {
+            setMensaje("Usuario bloqueado");
+        } else {
+            setMensaje("El usuario no ha sido bloqueado");
+        }
+    }
+    
 
     public String getMensaje() {
         return mensaje;

@@ -9,8 +9,13 @@ import BusinessLogic.Controller.AppController;
 import BusinessLogic.Controller.UserManager;
 import BusinessLogic.Controller.UserView;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -60,7 +65,7 @@ public class LoginBean implements Serializable{
         if(someId > UserManager.noUsrId){                        
             usrId = someId;
             loadUserData();
-            return "perfil";
+            return "bootstrap";
         }else{
             usrId = UserManager.noUsrId;
             message = "Datos erroneos";
@@ -68,8 +73,10 @@ public class LoginBean implements Serializable{
         }        
     }
     
-    public void logout(){
+    public String logout(){
         usrId = UserManager.noUsrId;
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login_c.xhtml?faces-redirect=true";
     }
 
     private boolean loadUserData(){
@@ -97,6 +104,23 @@ public class LoginBean implements Serializable{
     
     public void save(){
         usrView.saveEdit();
+    }
+    
+    //Se reescriben los datos alterados por los datos de la entidad en la BD
+    public void cancelEdit(){
+        loadUserData();
+    }
+    
+    public void validatePass(FacesContext context, UIComponent component, Object value) {
+        String password = (String) value;
+        UIInput confirmComponent = (UIInput) component.getAttributes().get("confirmPass");
+        String confirm = (String)confirmComponent.getValue();
+        
+        if (password == null || password.isEmpty() || password.length()<6) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de contraseña", "La contraseña debe tener entre 6 y 20 caracteres"));
+        }
+        if(!password.equals(confirm))
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Las contraseñas no coinciden", "Los valores de las contraseñas deben coincidir"));
     }
     
     private String pass;

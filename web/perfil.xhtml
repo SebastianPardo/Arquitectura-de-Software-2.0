@@ -71,9 +71,10 @@ and open the template in the editor.
                         <br/>
                         <p:commandButton action="#{loginBean.visit(usuario.usrId)}" value="Ver"/>
                     </p:column>
-                    <p:column filterBy="#{usuario.apellidoUsuario}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
-                    <p:column filterBy="#{usuario.nombreUsuario}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
-                    <p:column filterBy="#{usuario.autenticacion.correo}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrLastName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrAlias}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrMail}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
 
                 </p:dataTable>
             </h:form>
@@ -83,8 +84,8 @@ and open the template in the editor.
             <br/>
             <h:form style="height: 500px">
 
-                <p:dataTable var="usuario" value="#{userBean.appController.userManager.usuarios}" widgetVar="friendsSuggestedTable"
-                             emptyMessage="No se encontraron usuarios" filteredValue="#{userBean.appController.userManager.usuariosFiltrados}" stickyHeader="true" scrollable="true" scrollHeight="400" scrollWidth="auto">
+                <p:dataTable var="usuario" value="#{loginBean.user.usrSuggestedFriends}" widgetVar="friendsSuggestedTable"
+                             emptyMessage="No se encontraron usuarios" filteredValue="#{loginBean.user.usrSuggestedFriendsFilter}" stickyHeader="true" scrollable="true" scrollHeight="400" scrollWidth="auto">
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="Buscar en cualquier campo:" />
@@ -95,28 +96,28 @@ and open the template in the editor.
                         <h:panelGrid columns="2" cellpadding="5" style="border: none" columnClasses="firstColumn,secondColumn">
 
                             <h:outputText value="Alias:" />
-                            <h:outputText value="#{usuario.aliasUsuario}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrAlias}" style="font-weight: bold"/>
 
                             <h:outputText value="Nombre:" />
-                            <h:outputText value="#{usuario.nombreUsuario}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrName}" style="font-weight: bold"/>
 
                             <h:outputText value="Apellido:" />
-                            <h:outputText value="#{usuario.apellidoUsuario}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrLastName}" style="font-weight: bold"/>
 
                             <h:outputText value="Correo:" />
-                            <h:outputText value="#{usuario.autenticacion.correo}" style="font-weight: bold"/>
+                            <h:outputText value="#{usuario.usrMail}" style="font-weight: bold"/>
                         </h:panelGrid>
                     </p:column>
                     <p:column  headerText="" footerText="" style="width:20%; vertical-align: middle;">
                         <p:commandButton action="#{userBean.addFriend(loginBean.user.usrId, usuario.idUsuario)}" value="Agregar"/>
                         <br/>
                         <br/>
-                        <p:commandButton action="#{loginBean.visit(usuario.idUsuario)}" value="Ver"/>
+                        <p:commandButton action="#{loginBean.visit(usuario.usrId)}" value="Ver"/>
                     </p:column>
-                    <p:column filterBy="#{usuario.apellidoUsuario}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
-                    <p:column filterBy="#{usuario.nombreUsuario}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
-                    <p:column filterBy="#{usuario.aliasUsuario}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
-                    <p:column filterBy="#{usuario.autenticacion.correo}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrLastName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrAlias}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
+                    <p:column filterBy="#{usuario.usrMail}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
                     
 
                 </p:dataTable>

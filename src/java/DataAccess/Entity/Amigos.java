@@ -28,7 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Amigos.findAll", query = "SELECT a FROM Amigos a")
     , @NamedQuery(name = "Amigos.findByIdUsuario", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idUsuario = :idUsuario")
-    , @NamedQuery(name = "Amigos.findByIdAmigo", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idAmigo = :idAmigo")
+    , @NamedQuery(name = "Amigos.findByIdUsuarioAndState", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idUsuario = :idUsuario AND a.estatusRelacion = :estatusRelacion")
+    , @NamedQuery(name = "Amigos.findByIdAmigo", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idUsuario = :idUsuario AND a.amigosPK.idAmigo = :idAmigo")
+    , @NamedQuery(name = "Amigos.findByIdUsuaryYAmigo", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idAmigo = :idAmigo")
+    , @NamedQuery(name = "Amigos.findByIdUsuarioAmigoYStatus", query = "SELECT a FROM Amigos a WHERE a.amigosPK.idAmigo = :idAmigo AND a.estatusRelacion = :estatusRelacion")
     , @NamedQuery(name = "Amigos.findByEstatusRelacion", query = "SELECT a FROM Amigos a WHERE a.estatusRelacion = :estatusRelacion")
     , @NamedQuery(name = "Amigos.findAmigosRecomendados", query = "SELECT a FROM Amigos a, Amigos b WHERE a.amigosPK.idUsuario != :idUsuario AND b.amigosPK.idUsuario = :idUsuario AND a.amigosPK.idAmigo=b.amigosPK.idAmigo")})
 public class Amigos implements Serializable {

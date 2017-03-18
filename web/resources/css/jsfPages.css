@@ -82,20 +82,22 @@ tr.jsfcrud_even_row {
 }
 
 .panelNoBorder, .panelNoBorder tr, .panelNoBorder td{
-border: none;
-border-color: white;
+    border: none;
+    border-color: white;
 }
 
 .firstColumn {
-       width: 0px;
-  }
-  .secondColumn {
-       width: 300px;
-  }
-  .thirdColumn { 
-       width: 300px;
-  }
+    width: 0px;
+}
+.secondColumn {
+    width: 300px;
+}
+.thirdColumn { 
+    width: 300px;
+}
 
-  .ui-datatable table col {
-      width: auto;
-  }
+.ui-datatable table col {
+    width: auto;
+}
+
+

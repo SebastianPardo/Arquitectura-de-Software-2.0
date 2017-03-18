@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>UN Profile</title>
+        <meta name="author" content="The Author"></meta>
+    </h:head>
+    <h:body style="padding: 40px;">
+
+        <b:container fluid="true">
+            <b:panel >
+
+                <b:container fluid="true" style=" width: 50%; 
+                             height: 50%;
+                             min-width: 350px;
+                             max-width: 500px;">
+                    <b:panel title="Cuenta" look="primary" style="" collapsible="false">
+                        <h:form id="loginForm" >
+                            <b:row>
+                                <b:column>
+                                    <b:inputText placeholder="Usuario" id="username" value="#{loginBean.correo}" required="true" requiredMessage="Por favor ingrese el usuario">
+                                        <f:facet name="prepend">
+                                            <b:icon name="user" />
+                                        </f:facet>
+                                    </b:inputText>
+                                    <b:message for="username"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:inputSecret placeholder="Contraseña" id="password" value="#{loginBean.pass}" required="true" requiredMessage="Por favor ingrese la contraseña">
+                                        <f:facet name="prepend">
+                                            <b:iconAwesome name="key" />
+                                        </f:facet>
+                                    </b:inputSecret>
+                                </b:column>
+                                <b:column medium-screen="6" styleClass="message">
+                                    <b:message for="password" line-break-tag="&lt;p&gt;&lt;hr /&gt;&lt;/p&gt;"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="6" offset="3">
+                                    <b:commandButton value="Entrar" action="#{loginBean.login}" look="primary" style="width:100%" />
+                                </b:column>
+                            </b:row>
+                        </h:form>
+                    </b:panel>
+                </b:container>
+
+                <b:container fluid="true" style=" width: 50%; 
+                             height: 50%;
+                             min-width: 350px;
+                             max-width: 500px;
+                             padding-top: 30px;">
+                    <b:panel title="Crear cuenta" look="info" style="" collapsible="true" collapsed="true">
+                        <h:form id="createForm">
+
+                            <b:row>
+                                <b:column>
+                                    <b:inputText label="Correo" id="mail" value="#{createUserBean.correo}" validator-message="El formato del correo no es válido" required="true" required-message="El correo es obligatorio"> 
+                                        <f:validateRegex pattern="^[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$" />
+                                    </b:inputText>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:inputSecret label="Contraseña" id="pass1" value="#{createUserBean.pass}" validator="#{createUserBean.validatePass}" autocomplete="off">
+                                        <f:attribute name="confirmPass" value="#{confirmPass}" />
+                                    </b:inputSecret>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:inputSecret label="Repetir contraseña" id="pass2" binding="#{confirmPass}" required="true" autocomplete="off" required-message="Debe introducir nuevamente la contraseña" immediate="true" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:inputText label="Alias" value="#{createUserBean.aliasUsuario}" id="alias"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:inputText label="Nombre" id="name" value="#{createUserBean.nombreUsuario}" required="true" requiredMessage="El nombre es obligatorio"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:inputText label="Apellido" id="lastname" value="#{createUserBean.apellidoUsuario}" required="true" requiredMessage="El apellido es obligatorio"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    
+                                    <b:selectOneMenu label="Género" value="#{createUserBean.sexoUsuario}" id="genre" required="true">
+                                        <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                        <f:selectItem itemLabel="Femenio" itemValue="F"/>
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:inputText label="Teléfono" id="tel" value="#{createUserBean.telefonoUsuario}" required="true" requiredMessage="El teléfono es obligatorio"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column>
+                                    <b:dateTimePicker label="Fecha de nacimiento" value="#{createUserBean.fechaNacimientoUsuario}" id="date" mode="inline" show-time="false" minDate="" required="true" required-message="Por favor escoja una fecha de nacimiento"/>
+                                </b:column>
+                            </b:row>
+
+
+                            <b:row>
+                                <b:column span="4" offset="4">
+                                    <b:commandButton value="Crear" look="info btn-block" action="#{createUserBean.createUser}" style="width:100%" />
+                                </b:column>
+                            </b:row>
+
+                            <b:row>
+                                <b:column>
+                                    <b:messages id="messagesInputForm" for="createForm" styleClass="msgs" redisplay="true" recursive="true"/>
+                                </b:column>
+                            </b:row>
+                        </h:form>
+
+                    </b:panel>
+                </b:container>
+
+            </b:panel>
+        </b:container>
+
+    </h:body>
+</html>

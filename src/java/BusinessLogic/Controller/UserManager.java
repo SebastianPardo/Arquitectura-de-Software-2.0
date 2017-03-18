@@ -130,6 +130,7 @@ public class UserManager {
     
     public void saveUser(Usuario user){
         (new UserDAO()).edit(user);
+        (new AuthenticationDAO()).editAuthentication(user.getAutenticacion());
     }
     
     private ArrayList<Usuario> usuarios;
