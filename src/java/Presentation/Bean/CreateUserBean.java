@@ -20,10 +20,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.persistence.RollbackException;
 
 @ManagedBean
 @ViewScoped
-public class CreateUserBean implements Serializable{
+public class CreateUserBean implements Serializable {
 
     private static final long serialVersionUID = -8255062366708463640L;
 
@@ -36,7 +37,7 @@ public class CreateUserBean implements Serializable{
     private String pass;
     private String correo;
     private String message;
-    private boolean hide=true;
+    private boolean hide = true;
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -109,34 +110,41 @@ public class CreateUserBean implements Serializable{
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    public boolean getHide(){
+
+    public boolean getHide() {
         return hide;
     }
-    
-    public void setHide(boolean hide){
+
+    public void setHide(boolean hide) {
         this.hide = hide;
     }
-    
+
     public void validatePass(FacesContext context, UIComponent component, Object value) {
         String password = (String) value;
         UIInput confirmComponent = (UIInput) component.getAttributes().get("confirmPass");
-        String confirm = (String)confirmComponent.getValue();
-        
-        if (password == null || password.isEmpty() || password.length()<6) {
+        String confirm = (String) confirmComponent.getValue();
+
+        if (password == null || password.isEmpty() || password.length() < 6) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de contraseña", "La contraseña debe tener entre 6 y 20 caracteres"));
         }
-        if(!password.equals(confirm))
+        if (!password.equals(confirm)) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Las contraseñas no coinciden", "Los valores de las contraseñas deben coincidir"));
+        }
     }
 
     public void createUser() {
-  //      if(correo != null){
-//            pass = Encryp.encrypt(pass, correo);
-        //}
-        message = AppController.getInstance().getUserManager().createUser(nombreUsuario,
-                apellidoUsuario, aliasUsuario, sexoUsuario, telefonoUsuario,
-                true, fechaNacimientoUsuario, pass, correo);
+        try {
+            message = AppController.getInstance().getUserManager().createUser(nombreUsuario,
+                    apellidoUsuario, aliasUsuario, sexoUsuario, telefonoUsuario,
+                    true, fechaNacimientoUsuario, pass, correo);
+        } catch (RollbackException ex) {
+            FacesMessage mess= new FacesMessage(FacesMessage.SEVERITY_WARN, "El usuario ya existe", "El correo ingresado ya se ha usado");
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        }
+        FacesMessage mess =  new FacesMessage(FacesMessage.SEVERITY_WARN, "", message);
+        FacesContext.getCurrentInstance().addMessage(null,mess);
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
     }
 
 }

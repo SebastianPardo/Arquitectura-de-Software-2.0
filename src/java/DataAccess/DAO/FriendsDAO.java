@@ -69,6 +69,7 @@ public class FriendsDAO {
 
     public boolean remove(Amigos someFriends) {
         boolean value = true;
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();
 
@@ -89,6 +90,7 @@ public class FriendsDAO {
     }
 
     public boolean editFriendship(Amigos someFriends) {
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();
         et.begin();
@@ -122,6 +124,7 @@ public class FriendsDAO {
      * @return Lista de las relaciones en el estado pedido
      */
     public List<Amigos> getFriendsFrom(Integer usrId, Integer state) {
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         List<Amigos> usrFriends = null;
         Query q = em.createNamedQuery("Amigos.findByIdUsuarioAndState").setParameter("idUsuario", usrId).setParameter("estatusRelacion", state);
@@ -150,6 +153,7 @@ public class FriendsDAO {
      * @return Lista de las relaciones en el estado pedido
      */
     public List<Amigos> getRequestsTo(Integer usrId, Integer state) {
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         List<Amigos> usrFriends = null;
         Query q = em.createNamedQuery("Amigos.findByIdUsuarioAmigoYStatus").setParameter("idAmigo", usrId).setParameter("estatusRelacion", state);
@@ -172,6 +176,7 @@ public class FriendsDAO {
      * @return Lista completa de todas las relaciones del usuario dado
      */
     public List<Amigos> getFriendsFrom(Integer usrId) {
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         List<Amigos> usrFriends = null;
         Query q = em.createNamedQuery("Amigos.findByIdUsuario").setParameter("idUsuario", usrId);
@@ -186,6 +191,7 @@ public class FriendsDAO {
     }
     
     public Amigos getFriendship(Integer usrId1, Integer usrId2) {
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         Amigos friendship = null;
         Query q = em.createNamedQuery("Amigos.findByIdAmigo").setParameter("idUsuario", usrId1).setParameter("idAmigo", usrId2);
@@ -200,6 +206,7 @@ public class FriendsDAO {
     }
     
     public List<Amigos> getAllFriends() {
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         List<Amigos> usrFriends = null;
         Query q = em.createNamedQuery("Amigos.findAll");
@@ -214,6 +221,7 @@ public class FriendsDAO {
     }
 
     public List<Usuario> getSuggestedFriendsFrom(Integer usrId) {
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         List<Usuario> usrFriends = null;
         Query q = em.createNativeQuery("SELECT DISTINCT c.* FROM USUARIO b INNER JOIN AMIGOS am1 ON b.ID_USUARIO = am1.ID_USUARIO INNER JOIN USUARIO c ON c.ID_USUARIO = am1.ID_AMIGO AND b.ID_USUARIO IN ( SELECT DISTINCT b.ID_USUARIO FROM USUARIO a INNER JOIN AMIGOS am ON a.ID_USUARIO = am.ID_USUARIO INNER JOIN USUARIO b ON b.ID_USUARIO = am.ID_AMIGO AND a.ID_USUARIO = "+usrId+" )AND c.ID_USUARIO not in( SELECT DISTINCT c.id_usuario FROM USUARIO a INNER JOIN AMIGOS am3 ON a.ID_USUARIO = am3.ID_USUARIO INNER JOIN USUARIO c on c.ID_USUARIO = am3.ID_AMIGO AND a.ID_USUARIO = "+usrId+" ) and c.ID_USUARIO <> "+usrId+";", Usuario.class).setParameter("id", usrId);
@@ -228,7 +236,8 @@ public class FriendsDAO {
         return usrFriends;
     }
     
-    public List<Object[]> getSuggestedFriendsFrom2(Integer usrId) {
+    public List<Object[]> getSuggestedFriendsFrom2(Integer usrId) {        
+        EFactory.getCache().evict(Amigos.class);
         EntityManager em = EFactory.createEntityManager();
         List<Object[]> usrFriends = null;
         //Retorna dos columnas: la primera es la ID del usuario y la segunda los amigos en común

@@ -13,7 +13,6 @@ import DataAccess.Entity.Usuario;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.PersistenceException;
 
 /**
  *
@@ -21,20 +20,19 @@ import javax.persistence.PersistenceException;
  */
 public class UserManager {
 
-    public UserManager(){
-    
+    public UserManager() {
+
     }
-    
-    
-    public Integer login(String mail, String pass){
+
+    public Integer login(String mail, String pass) {
         Integer usrId = noUsrId;
         AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
-        Autenticacion autenticacionG = autenticacionDAO.searchByUsrData(mail,pass);
-        
-        if(autenticacionG != null){
-            usrId = autenticacionG.getIdUsuario();        
+        Autenticacion autenticacionG = autenticacionDAO.searchByUsrData(mail, pass);
+
+        if (autenticacionG != null) {
+            usrId = autenticacionG.getIdUsuario();
         }
-        
+
         return usrId;
     }
 
@@ -43,22 +41,24 @@ public class UserManager {
             String telefonoUsuario, boolean activo, Date fechaNacimientoUsuario,
             String pass, String correo) {
 
-        Usuario usuario
-                = new Usuario(null, nombreUsuario, apellidoUsuario,
-                        aliasUsuario, sexoUsuario, telefonoUsuario, activo, new Date(),
-                        fechaNacimientoUsuario);
+        if (!AppController.getInstance().userExist(correo)) {
 
-        //usuario.setAutenticacion(autenticacion);
-        try {
+            Usuario usuario
+                    = new Usuario(null, nombreUsuario, apellidoUsuario,
+                            aliasUsuario, sexoUsuario, telefonoUsuario, activo, new Date(),
+                            fechaNacimientoUsuario);
+
             UserDAO usuarioDAO = new UserDAO();
             Usuario usuarioG = usuarioDAO.persist(usuario);
-
-            Autenticacion autenticacion
+            Autenticacion autenticacion = null, autenticacionG = null;
+            if(usuarioG != null){
+            autenticacion
                     = new Autenticacion(usuarioG.getIdUsuario(), correo, pass);
 
             AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
-            Autenticacion autenticacionG = autenticacionDAO.persist(autenticacion);
-
+            autenticacionG = autenticacionDAO.persist(autenticacion);
+            }else
+                return "El usuario no pudo ser creado.";
             if (usuarioG != null && autenticacionG != null) {
                 return "El usuario ha sido creado, su usuario es " + autenticacionG.getCorreo() + ".";
             } else {
@@ -68,71 +68,69 @@ public class UserManager {
                     return "La autenticación no pudo ser creada.";
                 }
             }
-        } catch (IllegalStateException pe) {
+        } else {
             return "El correo ya existe";
         }
-
     }
-    
-    public UserView loadUser(Integer usrId){
+
+    public UserView loadUser(Integer usrId) {
         UserView value = new UserView();
-        
+
         UserDAO usrDAO = new UserDAO();
         Usuario usr = usrDAO.searchById(usrId);
-        
-        if(usr != null){        
-            value = new UserView(usr);            
+
+        if (usr != null) {
+            value = new UserView(usr);
         }
-        
+
         return value;
     }
-    
-    public java.util.ArrayList<UserView> loadAllUsers(){        
+
+    public java.util.ArrayList<UserView> loadAllUsers() {
         java.util.ArrayList<UserView> value = new java.util.ArrayList<>();
         java.util.ArrayList<Usuario> usrs = this.getUsuarios();
-        
-        for(Usuario aUsr: usrs){
+
+        for (Usuario aUsr : usrs) {
             value.add(new UserView(aUsr));
         }
-        
+
         return value;
     }
-    
+
     public ArrayList<Usuario> getUsuarios() {
         if (usuarios == null) {
             usuarios = new ArrayList<>((new UserDAO().findAll()));
-            usuarios.sort((Usuario user1, Usuario user2) -> 
-                    user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
+            usuarios.sort((Usuario user1, Usuario user2)
+                    -> user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
         }
         return usuarios;
     }
-    
-     public ArrayList<Usuario> getUsuariosFiltrados() {
+
+    public ArrayList<Usuario> getUsuariosFiltrados() {
         return usuariosFiltrados;
     }
 
     public void setUsuariosFiltrados(ArrayList<Usuario> usuariosFiltrados) {
         this.usuariosFiltrados = usuariosFiltrados;
     }
-    
-    
-    public ArrayList<UserView> getSuggestedFrom(Integer usrId){
+
+    public ArrayList<UserView> getSuggestedFrom(Integer usrId) {
         List<Usuario> sFriends = (new FriendsDAO()).getSuggestedFriendsFrom(usrId);
         ArrayList<UserView> suggested = new ArrayList<>();
-        
-        for(Usuario aUser : sFriends){
+
+        for (Usuario aUser : sFriends) {
             UserView value = new UserView(aUser);
             suggested.add(value);
         }
-        
+
         return suggested;
     }
-    
-    public void saveUser(Usuario user){
+
+    public void saveUser(Usuario user) {
         (new UserDAO()).edit(user);
         (new AuthenticationDAO()).editAuthentication(user.getAutenticacion());
     }
-    
+
     private ArrayList<Usuario> usuarios;
     private ArrayList<Usuario> usuariosFiltrados;
     public static Integer noUsrId = -1;

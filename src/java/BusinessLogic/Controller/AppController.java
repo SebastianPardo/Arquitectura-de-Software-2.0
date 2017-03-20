@@ -5,6 +5,8 @@
  */
 package BusinessLogic.Controller;
 
+import DataAccess.DAO.AuthenticationDAO;
+
 /**
  *
  * @author arqsoft2017i
@@ -78,6 +80,10 @@ public class AppController{
     
     public boolean answerFriendRequest(Integer usrId, Integer frdId, boolean didAcept){
         return frdManager.answerFriendRequest(usrId, frdId, didAcept);
+    }
+    
+    public boolean userExist(String mail){
+        return (null != (new AuthenticationDAO()).searhByMail(mail));
     }
         
     private UserManager usrManager;

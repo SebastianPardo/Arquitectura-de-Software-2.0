@@ -24,11 +24,13 @@ public class UserDAO {
 
     }
 
-    public Usuario persist(Usuario aUser) throws PersistenceException {        
+    public Usuario persist(Usuario aUser) throws PersistenceException {
+        EFactory.getCache().evict(Usuario.class);
         EntityManager em = EFactory.createEntityManager();
+        em.getEntityManagerFactory().getCache().evictAll();
         EntityTransaction et = em.getTransaction();
         et.begin();
-
+        
         try {
             em.persist(aUser);
             et.commit();
@@ -40,6 +42,7 @@ public class UserDAO {
             e.printStackTrace();
             et.rollback();
         } finally {
+            em.clear();
             em.close();
         }
         return aUser;
@@ -65,8 +68,8 @@ public class UserDAO {
     } 
 
     public Usuario searchById(Integer usrId) {
+        EFactory.getCache().evict(Usuario.class);
         EntityManager em = EFactory.createEntityManager();
-
         Usuario value = null;
 
         try {
@@ -81,6 +84,7 @@ public class UserDAO {
     }
 
     public Usuario searchByName(String name) {
+        EFactory.getCache().evict(Usuario.class);
         EntityManager em = EFactory.createEntityManager();
         Usuario value = null;
         Query q = em.createNamedQuery("Usuario.findByNombreUsuario");
@@ -97,6 +101,7 @@ public class UserDAO {
     }
 
     public Usuario searchByLastName(String lastName) {
+        EFactory.getCache().evict(Usuario.class);
         EntityManager em = EFactory.createEntityManager();
         Usuario value = null;
         Query q = em.createNamedQuery("Usuario.findByNombreUsuario");
@@ -113,6 +118,7 @@ public class UserDAO {
     }
 
     public List<Usuario> findAll() {
+        EFactory.getCache().evict(Usuario.class);
         EntityManager em = EFactory.createEntityManager();
         java.util.List<Usuario> usuarios = null;
         Query q = em.createNamedQuery("Usuario.findAll");
@@ -127,8 +133,10 @@ public class UserDAO {
     }
 
     public void edit(Usuario aUsr) {
+        EFactory.getCache().evict(Usuario.class);
         Usuario usuarioNew;
         EntityManager em = EFactory.createEntityManager();
+        em.getEntityManagerFactory().getCache().evictAll();
         EntityTransaction et = em.getTransaction();
         et.begin();
         try {

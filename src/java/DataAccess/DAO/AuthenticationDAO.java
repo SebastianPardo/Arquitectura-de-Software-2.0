@@ -10,8 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -23,7 +23,8 @@ public class AuthenticationDAO {
     
     }
     
-    public Autenticacion persist(Autenticacion anAuth) throws IllegalStateException{
+    public Autenticacion persist(Autenticacion anAuth) throws IllegalStateException, RollbackException{
+        EFactory.getCache().evict(Autenticacion.class);
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();
         et.begin();
@@ -42,6 +43,7 @@ public class AuthenticationDAO {
     }
     
     public boolean remove(Autenticacion anAuth){
+        EFactory.getCache().evict(Autenticacion.class);
         boolean value = true;
         EntityManager em = EFactory.createEntityManager();
         EntityTransaction et = em.getTransaction();
@@ -61,13 +63,13 @@ public class AuthenticationDAO {
     }    
     
     public Autenticacion searhByMail (String mail){
+        EFactory.getCache().evict(Autenticacion.class);
         EntityManager em = EFactory.createEntityManager();
         Autenticacion autenticacion = null;
         Query q = em.createNamedQuery("Autenticacion.findByCorreo");
-        q.setParameter(1, mail);
         
         try {
-            autenticacion = (Autenticacion)q.getSingleResult();
+            autenticacion = (Autenticacion)q.setParameter("correo", mail).getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
@@ -78,6 +80,7 @@ public class AuthenticationDAO {
     }
     
     public Autenticacion searchByUsrId(Integer usrId) {
+        EFactory.getCache().evict(Autenticacion.class);
         EntityManager em = EFactory.createEntityManager();
         Autenticacion autenticacion = null;
         
@@ -91,7 +94,9 @@ public class AuthenticationDAO {
     }
     
     public Autenticacion searchByUsrData(String mail, String pass) {
+        EFactory.getCache().evict(Autenticacion.class);
         EntityManager em = EFactory.createEntityManager();
+        em.clear();
         Autenticacion autenticacion = null;
         Query q = em.createNamedQuery("Autenticacion.Aut");
         q.setParameter("correo", mail);
@@ -106,6 +111,7 @@ public class AuthenticationDAO {
     }
     
     public boolean editAuthentication (Autenticacion anAuth){
+        EFactory.getCache().evict(Autenticacion.class);
         EntityManager em = EFactory.createEntityManager();
         Autenticacion temp = null;
         em.getTransaction().begin();
