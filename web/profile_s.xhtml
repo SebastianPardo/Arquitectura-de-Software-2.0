@@ -154,10 +154,10 @@ and open the template in the editor.
 
             <b:container fluid="true">
                 <b:form id="amigos">
-                    <b:dataTable id ="userFriends" span="9" lang="es" value="#{loginBean.user.usrFriends}" var="user" searching="true">
+                    <b:dataTable id ="userFriends" span="9" lang="es" value="#{userBean.appController.loadAllUsers()}" var="user" searching="true">
 
                         <b:dataTableColumn data-search="#{user.usrAlias} #{user.usrName}  #{user.usrLastName} #{user.usrMail}" rendered="false"/>
-                        <b:dataTableColumn label="Amgos" orderable="true">
+                        <b:dataTableColumn label="Usuarios" orderable="true">
                             <b:container fluid="true">
                                 <b:button look="link" value="#{user.usrAlias}"/>
                                 <p>#{user.usrName} #{user.usrLastName}</p>
@@ -166,7 +166,7 @@ and open the template in the editor.
                         </b:dataTableColumn>
                         <b:dataTableColumn label="" style="width: 100px;">
                             <b:container fluid="true">
-                                <b:commandButton id="deleteFriend" look="link" value="" icon="glyphicon-remove" style="color: rgb(255, 174, 8);" tooltip="Eliminar" action="#{userBean.deleteFriend(loginBean.user.usrId, user.usrId)}" update="amigos"/>
+                                <b:commandButton id="addFriend" look="link" value="" icon="glyphicon-plus" tooltip="Agregar" action="#{userBean.addFriend(loginBean.user.usrId, user.usrId)}" update="amigos"/>
                                 <b:commandButton id="blockFriend" look="link" value="" icon="glyphicon-ban-circle" style="color: rgb(255, 8, 8);" tooltip="Bloquear" action="#{userBean.blockFriend(loginBean.user.usrId, user.usrId)}" update="amigos"/>
                             </b:container>
                         </b:dataTableColumn>
