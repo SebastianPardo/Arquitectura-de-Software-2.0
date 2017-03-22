@@ -24,7 +24,7 @@ and open the template in the editor.
                              min-width: 350px;
                              max-width: 500px;">
                     <b:panel title="Cuenta" look="primary" style="" collapsible="false">
-                        <h:form id="loginForm" >
+                        <b:form id="loginForm" >
                             <b:row>
                                 <b:column>
                                     <b:inputText placeholder="Usuario" id="username" value="#{loginBean.correo}" required="true" requiredMessage="Por favor ingrese el usuario">
@@ -52,7 +52,12 @@ and open the template in the editor.
                                     <b:commandButton value="Entrar" action="#{loginBean.login}" look="primary" style="width:100%" />
                                 </b:column>
                             </b:row>
-                        </h:form>
+                            <b:row>
+                                <b:column>
+                                    <b:messages id="messagesLoginForm" styleClass="msgs"/>
+                                </b:column>
+                            </b:row>
+                        </b:form>
                     </b:panel>
                 </b:container>
 

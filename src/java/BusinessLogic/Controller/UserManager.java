@@ -51,14 +51,15 @@ public class UserManager {
             UserDAO usuarioDAO = new UserDAO();
             Usuario usuarioG = usuarioDAO.persist(usuario);
             Autenticacion autenticacion = null, autenticacionG = null;
-            if(usuarioG != null){
-            autenticacion
-                    = new Autenticacion(usuarioG.getIdUsuario(), correo, pass);
+            if (usuarioG != null) {
+                autenticacion
+                        = new Autenticacion(usuarioG.getIdUsuario(), correo, pass);
 
-            AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
-            autenticacionG = autenticacionDAO.persist(autenticacion);
-            }else
+                AuthenticationDAO autenticacionDAO = new AuthenticationDAO();
+                autenticacionG = autenticacionDAO.persist(autenticacion);
+            } else {
                 return "El usuario no pudo ser creado.";
+            }
             if (usuarioG != null && autenticacionG != null) {
                 return "El usuario ha sido creado, su usuario es " + autenticacionG.getCorreo() + ".";
             } else {
@@ -97,12 +98,32 @@ public class UserManager {
         return value;
     }
 
-    public ArrayList<Usuario> getUsuarios() {
-        if (usuarios == null) {
-            usuarios = new ArrayList<>((new UserDAO().findAll()));
-            usuarios.sort((Usuario user1, Usuario user2)
-                    -> user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
+    public java.util.ArrayList<UserView> loadAllUsersExcept(Integer usrId) {
+        java.util.ArrayList<UserView> value = new java.util.ArrayList<>();
+        java.util.ArrayList<Usuario> usrs = this.getUsuariosExcept(usrId);
+
+        for (Usuario aUsr : usrs) {
+            value.add(new UserView(aUsr));
         }
+
+        return value;
+    }
+
+    public ArrayList<Usuario> getUsuarios() {
+
+        usuarios = new ArrayList<>((new UserDAO().findAll()));
+        usuarios.sort((Usuario user1, Usuario user2)
+                -> user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
+
+        return usuarios;
+    }
+
+    public ArrayList<Usuario> getUsuariosExcept(Integer usrId) {
+
+        usuarios = new ArrayList<>((new UserDAO().findAllExcept(usrId)));
+        usuarios.sort((Usuario user1, Usuario user2)
+                -> user1.getApellidoUsuario().compareTo(user2.getApellidoUsuario()));
+
         return usuarios;
     }
 

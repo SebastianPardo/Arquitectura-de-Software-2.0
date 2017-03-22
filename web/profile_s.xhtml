@@ -31,7 +31,7 @@ and open the template in the editor.
             </b:row>
             <b:row>
                 <b:column>
-                    <b:inputSecret label="Repetir contraseña" id="pass2" binding="#{confirmPass}" required="true" autocomplete="off" required-message="Debe introducir nuevamente la contraseña" immediate="true" />
+                    <b:inputSecret label="Repetir contraseña" id="pass2" binding="#{confirmPass}" immediate="true" />
                 </b:column>
             </b:row>
             <b:row>
@@ -89,7 +89,7 @@ and open the template in the editor.
         </h:form>
     </b:modal>
 
-    <h:body style="padding: 40px;" onload="document.getElementById('requests').hidden = true;">
+    <h:body style="padding: 40px;">
         <b:form id="barForm">
             <b:navBar brand="UNProfiles" brandHref="/UNProfile/faces/bootstrap.xhtml" fixed="top" inverse="true">
                 <b:navbarLinks>
@@ -104,57 +104,11 @@ and open the template in the editor.
                 <p>#{loginBean.user.usrName} #{loginBean.user.usrLastName}
                     <b:button look="link" value="" icon="glyphicon-pencil" size="lg" tooltip="Editar mis datos" p:data-target="#amodal" p:data-toggle="modal" onclick="return false;"/>
                 </p>
-
-                <b:row >
-                    <b:column span="1" offset="11">
-
-                        <b:button look="link" value="" icon="globe" tooltip="Tienes #{loginBean.user.usrPendingFriendsReceived.size()} solicitudes pendientes" size="lg" disabled="false"
-                                  onclick="if (#{loginBean.user.usrPendingFriendsReceived.size()} > 0)
-                                              if (document.getElementById('requests').hidden) {
-                                                  document.getElementById('requests').hidden = false;
-                                              } else {
-                                                  document.getElementById('requests').hidden = true;
-                                              }"/> 
-
-                        <b:container id="requests" style="
-                                     position: absolute;
-                                     background-color: #F9F9F9;
-                                     max-height: 350px;
-                                     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-                                     padding: 12px;
-                                     z-index: 1;
-                                     left: -288px;
-                                     right: -20px;
-                                     width: 380px;
-                                     overflow-y: auto;">
-                            <b:form id="requestsForm">
-                                <c:forEach items="#{loginBean.user.usrPendingFriendsReceived}" var="user" varStatus="count">
-
-                                    <b:container id="RequestedFriends" fluid="true" style="padding-left: 35px; padding-right: 25px; margin-bottom: 5px; border: 1px solid #a1a1a1;">
-                                        <h1>#{user.usrAlias}</h1>
-                                        <p>#{user.usrName} #{usr.usrLastName}</p>
-                                        <p>#{user.usrMail}</p>
-                                        <b:row>
-                                            <b:column span="1" offset="8">
-                                                <b:commandButton look="link" value="" icon="glyphicon-plus" tooltip="Agregar" action="#{userBean.answerFriendRequest(loginBean.user.usrId, user.usrId, true)}" update="requestsForm amigos sugestedForm"/>
-                                            </b:column>
-                                            <b:column span="1">
-                                                <b:commandButton look="link" value="" icon="glyphicon-remove" tooltip="Rechazar" style="color: rgb(255, 8, 8);" action="#{userBean.answerFriendRequest(loginBean.user.usrId, user.usrId, false)}" update="requestsForm amigos sugestedForm"/>
-                                            </b:column>
-                                        </b:row>
-                                    </b:container>
-
-                                </c:forEach>
-                            </b:form>
-                        </b:container>
-
-                    </b:column>
-                </b:row>
             </b:well>
 
             <b:container fluid="true">
                 <b:form id="amigos">
-                    <b:dataTable id ="userFriends" span="9" lang="es" value="#{userBean.appController.loadAllUsers()}" var="user" searching="true">
+                    <b:dataTable id ="userFriends" span="9" lang="es" value="#{userBean.appController.loadAllUsersExcept(loginBean.user.usrId)}" var="user" searching="true">
 
                         <b:dataTableColumn data-search="#{user.usrAlias} #{user.usrName}  #{user.usrLastName} #{user.usrMail}" rendered="false"/>
                         <b:dataTableColumn label="Usuarios" orderable="true">
@@ -173,8 +127,32 @@ and open the template in the editor.
                     </b:dataTable>
                 </b:form>
 
-                <b:form id="sugestedForm">
-                    <b:carousel id="sugested" span="3" showIndicators="true" style="position: relative;color: #FFF;background: #4A4A4A;background-clip: content-box" tooltip="Sugerencias">
+                <b:well span="3" style="max-height: 525px; overflow-x: auto;" rendered="#{loginBean.user.usrPendingFriendsReceived.size()!=0}">
+                    <h3 style="text-align: center">Peticiones</h3>
+                    <b:form id="requestsForm">
+                        <c:forEach items="#{loginBean.user.usrPendingFriendsReceived}" var="usr">
+                            <b:container style="width:250px;">
+                                <b:container id="SuggestedFriend" fluid="true" style="padding-left: 25px; padding-right: 25px;">
+                                    <h1>#{usr.usrAlias}</h1>
+                                    <p>#{usr.usrName} #{usr.usrLastName}</p>
+                                    <p>#{usr.usrMail}</p>
+                                    <b:row>
+                                        <b:column span="1" offset="6">
+                                            <b:commandButton look="link" value="" icon="glyphicon-plus" tooltip="Agregar" action="#{userBean.answerFriendRequest(loginBean.user.usrId, usr.usrId, true)}" update="requestsForm amigos sugestedForm"/>
+                                        </b:column>
+                                        <b:column span="1">
+                                            <b:commandButton look="link" value="" icon="glyphicon-remove" tooltip="Rechazar" style="color: rgb(255, 8, 8);" action="#{userBean.answerFriendRequest(loginBean.user.usrId, usr.usrId, false)}" update="requestsForm amigos sugestedForm"/>
+                                        </b:column>
+                                    </b:row>
+                                </b:container>
+                            </b:container>
+                        </c:forEach>
+                    </b:form>
+                </b:well>
+                
+                <b:form id="sugestedForm" rendered="#{userBean.appController.loadSugestedFriendsFrom(loginBean.user.usrId).size()!=0}">
+                    <h2 style="text-align: center">Sugerencias</h2>
+                    <b:carousel id="sugested" span="3" showIndicators="true" style="position: relative;color: #FFF;background: #4A4A4A;background-clip: border-box" tooltip="Sugerencias">
 
                         <c:forEach items="#{userBean.appController.loadSugestedFriendsFrom(loginBean.user.usrId)}" var="usr">
                             <b:carouselItem style="width:400px;height:230px;">
@@ -190,10 +168,9 @@ and open the template in the editor.
                                 </b:container>
                             </b:carouselItem>
                         </c:forEach>
-
-
                     </b:carousel>
                 </b:form>
+
             </b:container>
         </b:container>
     </h:body>

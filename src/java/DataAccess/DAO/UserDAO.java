@@ -131,6 +131,22 @@ public class UserDAO {
         }
         return usuarios;
     }
+    
+     public List<Usuario> findAllExcept(Integer usrId) {
+        EFactory.getCache().evict(Usuario.class);
+        EntityManager em = EFactory.createEntityManager();
+        java.util.List<Usuario> usuarios = null;
+        Query q = em.createNamedQuery("Usuario.findAllExcept").setParameter("idUsuario", usrId);
+        try {
+            usuarios = (java.util.List<Usuario>) q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return usuarios;
+    }
+
 
     public void edit(Usuario aUsr) {
         EFactory.getCache().evict(Usuario.class);

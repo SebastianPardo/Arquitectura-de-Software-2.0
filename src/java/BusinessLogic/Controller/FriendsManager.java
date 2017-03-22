@@ -96,9 +96,9 @@ public class FriendsManager {
 
         if (didAccept) {
             fr.setEstatusRelacion(FriendsDAO.Friends);
-            value = (new FriendsDAO()).persist(fr, new Amigos(new AmigosPK(usrId, senderId), FriendsDAO.Friends));
+            value = frDAO.persist(fr, new Amigos(new AmigosPK(usrId, senderId), FriendsDAO.Friends));
         } else {
-            value = (new FriendsDAO()).remove(fr);
+            value = frDAO.remove(fr);
         }
 
         return value;

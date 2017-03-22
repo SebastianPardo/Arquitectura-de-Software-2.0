@@ -38,6 +38,10 @@ public class AppController{
         return usrManager.loadAllUsers();
     }
     
+    public java.util.ArrayList<UserView> loadAllUsersExcept(Integer usrId){
+        return usrManager.loadAllUsersExcept(usrId);
+    }
+    
     
     public java.util.ArrayList<UserView> loadFriendsFrom(Integer usrId){
         return frdManager.getFriendsAceptedFrom(usrId);
