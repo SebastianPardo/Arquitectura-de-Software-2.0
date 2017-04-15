@@ -119,13 +119,8 @@ public class UserView implements Serializable {
         }
     }
     
-    public String getUsrPass(){
-        String value = emptyString;
-        
-        if (usrData != null) {
-            value = usrData.getAutenticacion().getPass();
-        }
-        return value;
+    public String getUsrPass() {
+        return null;
     }
     
     public void setUsrPass(String aUsrPass) {

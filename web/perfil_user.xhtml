@@ -10,10 +10,13 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-
+    <f:metadata>
+        <f:viewParam name="userID" value="#{viewControl.userID}" />
+        <f:viewAction action="#{viewControl.onload}" />
+    </f:metadata>
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="Perfil de #{loginBean.userVisit.usrAlias}"></h:outputText>
+            <h:outputText value="Perfil de este #{vviewControluserID}"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:form>
@@ -62,7 +65,7 @@ and open the template in the editor.
                     <p:column  headerText="" footerText="" style="width:20%; vertical-align: middle;">
                         <p:commandButton action="#{userBean.addFriend(loginBean.user.usrId, usuario.usrId)}" value="Agregar" update=":friendList:growl"/>
                         <br/>
-                        
+
                     </p:column>
                     <p:column filterBy="#{usuario.usrLastName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>
                     <p:column filterBy="#{usuario.usrName}" filterMatchMode="contains" filterStyle="display:none" style="display: none; width: 0px;"/>

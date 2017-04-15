@@ -12,85 +12,11 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <f:metadata>
-        <f:viewAction action="#{loginBean.profileOnLoad}" />
+        <f:viewAction action="#{loginBean.anotherProfileOnLoad}" />
     </f:metadata>
     <h:head>
         <title>UN Profile</title>
     </h:head>
-    <b:modal id="amodal" title="Editar datos" styleClass="modalPseudoClass">
-        <h:form id="editForm">
-            <b:row>
-                <b:column>
-                    <b:label text="#{loginBean.user.usrMail}"/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <b:inputSecret label="Contraseña" id="pass1" value="#{loginBean.user.usrPass}" validator="#{loginBean.validatePass}">
-                        <f:attribute name="confirmPass" value="#{confirmPass}" />
-                    </b:inputSecret>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <b:inputSecret label="Repetir contraseña" id="pass2" binding="#{confirmPass}" autocomplete="off" immediate="true" />
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <b:inputText label="Alias" value="#{loginBean.user.usrAlias}" id="alias"/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <b:inputText label="Nombre" id="name" value="#{loginBean.user.usrName}" required="true" requiredMessage="El nombre es obligatorio"/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <b:inputText label="Apellido" id="lastname" value="#{loginBean.user.usrLastName}" required="true" requiredMessage="El apellido es obligatorio"/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-
-                    <b:selectOneMenu label="Género" value="#{loginBean.user.usrGenre}" id="genre">
-                        <f:selectItem itemLabel="Masculino" itemValue="M"/>
-                        <f:selectItem itemLabel="Femenio" itemValue="F"/>
-                    </b:selectOneMenu>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <b:inputText label="Teléfono" id="tel" value="#{loginBean.user.usrTel}" required="true" requiredMessage="El teléfono es obligatorio"/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <b:dateTimePicker label="Fecha de nacimiento" value="#{loginBean.user.usrDate}" id="date" mode="inline" show-time="false" minDate="" required="true" required-message="Por favor escoja una fecha de nacimiento"/>
-                </b:column>
-            </b:row>
-
-
-            <b:row>
-                <b:column span="4" offset="4">
-                    <b:commandButton value="Guardar" look="info btn-block" action="#{loginBean.save()}" style="width:100%" />
-                </b:column>
-            </b:row>
-
-            <b:row>
-                <b:column>
-                    <b:messages id="messagesEditForm" for="editForm" styleClass="msgs" redisplay="true" recursive="true"/>
-                </b:column>
-            </b:row>
-
-            <f:facet name="footer">
-                <b:button value="Cancelar" dismiss="modal" onclick="#{loginBean.cancelEdit()};"/>
-                <b:button value="Guardar" look="primary" dismiss="modal" onclick="#{loginBean.save()};"/>
-            </f:facet>
-        </h:form>
-    </b:modal>
-
     <h:body style="padding: 40px;">
         <b:form id="barForm">
             <b:navBar brand="UNProfiles" brandHref="/UNProfile/faces/bootstrap.xhtml" fixed="top" inverse="true">
@@ -102,15 +28,17 @@ and open the template in the editor.
         </b:form>
         <b:container fluid="true">
             <b:well>
-                <h1>#{loginBean.user.usrAlias}</h1>
-                <p>#{loginBean.user.usrName} #{loginBean.user.usrLastName}
-                    <b:button look="link" value="" icon="glyphicon-pencil" size="lg" tooltip="Editar mis datos" p:data-target="#amodal" p:data-toggle="modal" onclick="return false;"/>
-                </p>
-            </b:well>
 
+                <h1>#{loginBean.userVisit.usrAlias}</h1>
+
+                <p>#{loginBean.userVisit.usrName} #{loginBean.userVisit.usrLastName}</p>
+                <p>#{loginBean.userVisit.usrMail}</p>
+                <p>#{loginBean.userVisit.usrGenre}</p>
+                <p>#{loginBean.userVisit.usrTel}</p>
+            </b:well>
             <b:container fluid="true">
                 <b:form id="amigos">
-                    <b:dataTable id ="userFriends" span="9" lang="es" value="#{loginBean.user.usrFriends}" var="user" searching="true">
+                    <b:dataTable id ="userFriends" span="9" lang="es" value="#{loginBean.userVisit.usrFriends}" var="user" searching="true">
 
                         <b:dataTableColumn data-search="#{user.usrAlias} #{user.usrName}  #{user.usrLastName} #{user.usrMail}" rendered="false"/>
                         <b:dataTableColumn label="Amigos" orderable="true">
