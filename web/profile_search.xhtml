@@ -11,7 +11,9 @@ and open the template in the editor.
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-
+    <f:metadata>
+        <f:viewAction action="#{loginBean.profileOnLoad}" />
+    </f:metadata>
     <h:head>
         <title>UN Profile</title>
     </h:head>
@@ -31,7 +33,7 @@ and open the template in the editor.
             </b:row>
             <b:row>
                 <b:column>
-                    <b:inputSecret label="Repetir contraseña" id="pass2" binding="#{confirmPass}" immediate="true" />
+                    <b:inputSecret label="Repetir contraseña" id="pass2" binding="#{confirmPass}" autocomplete="off" immediate="true" />
                 </b:column>
             </b:row>
             <b:row>
@@ -88,13 +90,12 @@ and open the template in the editor.
             </f:facet>
         </h:form>
     </b:modal>
-
     <h:body style="padding: 40px;">
         <b:form id="barForm">
             <b:navBar brand="UNProfiles" brandHref="/UNProfile/faces/bootstrap.xhtml" fixed="top" inverse="true">
                 <b:navbarLinks>
-                    <b:navLink value="Buscar" href="/UNProfile/faces/profile_s.xhtml"></b:navLink>
-                    <b:navLink value="Cerrar" href="/UNProfile/faces/login_c.xhtml" action="#{loginBean.logout()}"></b:navLink>
+                    <b:navLink value="Buscar" href="/UNProfile/faces/profile_search.xhtml"></b:navLink>
+                    <b:navCommandLink value="Cerrar" action="#{loginBean.logout()}"/>
                 </b:navbarLinks>
             </b:navBar>
         </b:form>
@@ -113,7 +114,7 @@ and open the template in the editor.
                         <b:dataTableColumn data-search="#{user.usrAlias} #{user.usrName}  #{user.usrLastName} #{user.usrMail}" rendered="false"/>
                         <b:dataTableColumn label="Usuarios" orderable="true">
                             <b:container fluid="true">
-                                <b:button look="link" value="#{user.usrAlias}"/>
+                                <b:commandButton look="link" value="#{usr.usrAlias}" action="#{loginBean.visit(usr)}" style="padding: 0px 0px 6px;"/>
                                 <p>#{user.usrName} #{user.usrLastName}</p>
                                 <p>#{user.usrMail}</p>
                             </b:container>
@@ -132,8 +133,8 @@ and open the template in the editor.
                     <b:form id="requestsForm">
                         <c:forEach items="#{loginBean.user.usrPendingFriendsReceived}" var="usr">
                             <b:container style="width:250px;">
-                                <b:container id="SuggestedFriend" fluid="true" style="padding-left: 25px; padding-right: 25px;">
-                                    <h1>#{usr.usrAlias}</h1>
+                                <b:container id="SuggestedFriend" fluid="true" style="padding-left: 25px; padding-right: 25px; padding-top: 25px;">
+                                    <b:commandButton look="link" value="#{usr.usrAlias}" action="#{loginBean.visit(usr)}" style="padding: 0px 0px 6px;"/>
                                     <p>#{usr.usrName} #{usr.usrLastName}</p>
                                     <p>#{usr.usrMail}</p>
                                     <b:row>
@@ -156,8 +157,8 @@ and open the template in the editor.
 
                         <c:forEach items="#{userBean.appController.loadSugestedFriendsFrom(loginBean.user.usrId)}" var="usr">
                             <b:carouselItem style="width:400px;height:230px;">
-                                <b:container id="SuggestedFriend" fluid="true" style="padding-left: 35px; padding-right: 25px;">
-                                    <h1>#{usr.usrAlias}</h1>
+                                <b:container id="SuggestedFriend" fluid="true" style="padding-left: 35px; padding-right: 25px; padding-top: 25px;">
+                                    <b:commandButton look="link" value="#{usr.usrAlias}" action="#{loginBean.visit(usr)}" style="padding: 0px 0px 6px;"/>
                                     <p>#{usr.usrName} #{usr.usrLastName}</p>
                                     <p>#{usr.usrMail}</p>
                                     <b:row>

@@ -10,6 +10,9 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <f:metadata>
+        <f:viewAction action="#{loginBean.onLoad}" />
+    </f:metadata>
     <h:head>
         <title>UN Profile</title>
         <meta name="author" content="The Author"></meta>
@@ -18,7 +21,6 @@ and open the template in the editor.
 
         <b:container fluid="true">
             <b:panel >
-
                 <b:container fluid="true" style=" width: 50%; 
                              height: 50%;
                              min-width: 350px;
@@ -45,6 +47,11 @@ and open the template in the editor.
                                 </b:column>
                                 <b:column medium-screen="6" styleClass="message">
                                     <b:message for="password" line-break-tag="&lt;p&gt;&lt;hr /&gt;&lt;/p&gt;"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column offset="4">
+                                    <b:selectBooleanCheckbox caption="Recordarme" id="stayLogged" value="#{loginBean.stayLogged}"/>
                                 </b:column>
                             </b:row>
                             <b:row>
