@@ -20,10 +20,19 @@ public class Friends {
     /**
      * Retorna una lista de los amigos del usuario
      * @param id of the user.
-     * @return Friends as arraylist of UserView.
+     * @return int of ids as arraylist.
      */
     @WebMethod(operationName = "getFriends")
-    public java.util.ArrayList<UserView> getFriends(int id) {
-        return AppController.getInstance().loadFriendsFrom(id);
-    }
+//    public java.util.ArrayList<Integer> getFriends(int id) {
+//        java.util.ArrayList<Integer> ids = new ArrayList<>();
+//        java.util.ArrayList<UserView> amigos = AppController.getInstance().loadFriendsFrom(id);
+//        amigos.forEach((usr) -> {
+//            ids.add(usr.getUsrId());
+//        });
+//        return ids;
+//    }
+      public java.util.ArrayList<UserView> getFriends(int id) {
+          java.util.ArrayList<UserView> amigos = AppController.getInstance().loadFriendsFrom(id);
+          return amigos;
+}
 }

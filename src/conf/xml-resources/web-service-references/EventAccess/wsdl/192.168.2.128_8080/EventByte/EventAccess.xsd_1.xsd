@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://Service.BusinessLogic/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://Service.BusinessLogic/">
+
+<xs:element name="event" type="tns:event"/>
+
+<xs:element name="eventType" type="tns:eventType"/>
+
+<xs:element name="linkEvent" type="tns:linkEvent"/>
+
+<xs:element name="linkEventResponse" type="tns:linkEventResponse"/>
+
+<xs:element name="privacy" type="tns:privacy"/>
+
+<xs:element name="privateEvents" type="tns:privateEvents"/>
+
+<xs:element name="privateEventsResponse" type="tns:privateEventsResponse"/>
+
+<xs:element name="publicEvents" type="tns:publicEvents"/>
+
+<xs:element name="publicEventsResponse" type="tns:publicEventsResponse"/>
+
+<xs:element name="user" type="tns:user"/>
+
+<xs:complexType name="linkEvent">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" minOccurs="0"/>
+<xs:element name="arg1" type="xs:int" minOccurs="0"/>
+<xs:element name="arg2" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="linkEventResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="privateEvents">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="privateEventsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:event" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="event">
+<xs:sequence>
+<xs:element name="date" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
+<xs:element name="eventTypeidEventType" type="tns:eventType" minOccurs="0"/>
+<xs:element name="idEvent" type="xs:int" minOccurs="0"/>
+<xs:element name="location" type="xs:string" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="privacyidPrivacy" type="tns:privacy" minOccurs="0"/>
+<xs:element name="useridUser" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="eventType">
+<xs:sequence>
+<xs:element name="idEventType" type="xs:int" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="privacy">
+<xs:sequence>
+<xs:element name="idPrivacy" type="xs:int" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="user">
+<xs:sequence>
+<xs:element name="birthdate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="cellphone" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="idUser" type="xs:int" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="publicEvents">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="publicEventsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:event" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

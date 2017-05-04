@@ -32,4 +32,32 @@
                 JAX-WS WSIMPORT SECTION
                 ===================
             -->
+    <target name="wsimport-init" depends="init">
+        <fail if="${wsimport.bad.version}" message="WsImport ant task defined in the classpath ${j2ee.platform.wsimport.classpath} has a serious bug. See http://wiki.netbeans.org/MetroIssue for details."/>
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <property name="j2ee.platform.wsimport.classpath" value="${libs.jaxws21.classpath}"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${java.home}/../lib/tools.jar:${j2ee.platform.wsimport.classpath}:${javac.classpath}"/>
+        </taskdef>
+        <condition property="conf-dir" value="${conf.dir}/" else="">
+            <isset property="conf.dir"/>
+        </condition>
+    </target>
+    <target name="wsimport-client-EventAccess" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/EventAccess"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/EventAccess" destdir="${build.generated.dir}/jax-wsCache/EventAccess" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/EventAccess/wsdl/192.168.2.128_8080/EventByte/EventAccess.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://192.168.2.128:8080/EventByte/EventAccess?WSDL" xnocompile="true" xendorsed="true" package="BusinessLogic.ServiceConsume">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/EventAccess/wsdl/192.168.2.128_8080/EventByte/EventAccess.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/EventAccess"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/EventAccess">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-EventAccess" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/BusinessLogic/ServiceConsume"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/EventAccess"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-EventAccess"/>
 </project>

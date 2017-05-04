@@ -120,7 +120,7 @@ public class UserView implements Serializable {
     }
     
     public String getUsrPass() {
-        return null;
+        return "";
     }
     
     public void setUsrPass(String aUsrPass) {
